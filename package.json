@@ -1,16 +1,26 @@
-
 {
-  "name": "living-lab-app",
+  "name": "living-lab",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Data Logger",
+  "main": "./src/index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && node server.js\" \"cd client && npm start\""
+    "start": "node ./src/Index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuquirozy/living-lab-app-repo.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/manuquirozy/living-lab-app-repo/issues"
+  },
+  "homepage": "https://github.com/manuquirozy/living-lab-app-repo#readme",
   "dependencies": {
-    "concurrently": "^4.0.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.0",
+    "mongoose": "^5.5.11",
+    "morgan": "^1.9.1"
   }
 }
