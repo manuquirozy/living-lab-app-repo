@@ -1,10 +1,11 @@
 const express = require('express');
-const { healthCheck } = require('../controllers/HealthCheck');
-const { sensorInput } = require('../controllers/SensorInput')
+const { healthCheck } = require('../controllers/healthCheck');
+const { displayData, putData } = require('../controllers/sensorData')
 
 const router = express.Router();
 
-router.get('/health-check', healthCheck)
-router.post('/sensors', sensorInput)
+router.get('/healthCheck', healthCheck)
+router.post('/putData',putData)
+router.get('/displayData',displayData)
 
 module.exports = router;

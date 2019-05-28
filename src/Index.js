@@ -1,24 +1,31 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
-const settings = require('./config/Settings')
+const { Logger } = require('./utils/Logger');
+const settings = require('./config/Settings');
 const api = require('./routes/Api')
 const resHandler = require('./utils/ResHandler')
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
+
+mongoose.Promise = global.Promise;
+mongoose.connect(settings.MONGO_URI,{ useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api', api)
-app.use(resHandler.susscess)
+app.use(resHandler.success)
 app.use(resHandler.error)
 
-const port = process.env.PORT || 3000;
+const port = settings.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Server running on port: ${port}`);
+  Logger.info(`Server running on port
+  : ${port}`);
 });
 
 module.exports = app;

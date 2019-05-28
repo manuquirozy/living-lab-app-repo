@@ -1,5 +1,5 @@
 module.exports = {
-  susscess: (req, res, next) => {
+  success: (req, res, next) => {
     if (res.payload) {
       res.send(res.payload);
     } else {
