@@ -1,5 +1,5 @@
 const Data = require('../entities/data');
-var querystring = require('querystring');
+const querystring = require('querystring');
 
 const putData = (req, res) => {
     let data = new Data();
@@ -38,7 +38,7 @@ const displayData = (req, res) => {
             return res.json({ success: true, data: data });
             }).select(sensor).limit(20).sort([['updatedAt', 'descending']]);
     }
-    res.sendFile(path.join(__dirname, './public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 }
 
 module.exports = {
