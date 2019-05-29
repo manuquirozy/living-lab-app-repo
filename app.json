@@ -1,6 +1,0 @@
-{
-    "name": "living-lab",
-    "description": "",
-    "respository": "https://github.com/manuquirozy/living-lab-app-repo",
-    "image": "heroku/nodejs"
-}
