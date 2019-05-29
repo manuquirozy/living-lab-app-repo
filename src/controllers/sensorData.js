@@ -24,7 +24,7 @@ const putData = (req, res) => {
     });
 }
 
-const displayData = (req, res) => {
+const retrieveData = (req, res) => {
     let sensor = req.query.sensor;
     console.log(sensor);
     if(sensor==undefined){
@@ -38,10 +38,9 @@ const displayData = (req, res) => {
             return res.json({ success: true, data: data });
             }).select(sensor).limit(20).sort([['updatedAt', 'descending']]);
     }
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 }
 
 module.exports = {
-    displayData,
+    retrieveData,
     putData
 }
