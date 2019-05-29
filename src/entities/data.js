@@ -11,7 +11,7 @@ const dataSchema = new Schema({
     rainfall: Number,
     battery: Number
   },
-  { timestamps: true }
+  { timestamps: true ,useUnifiedTopology: true}
 );
 
 module.exports = model("Data", dataSchema);
