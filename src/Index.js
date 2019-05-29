@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const path = require('path')
 const express = require('express');
 const bodyParser = require('body-parser');
 const { Logger } = require('./utils/Logger');
@@ -9,7 +10,7 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
 
@@ -26,8 +27,7 @@ app.use(resHandler.error)
 const port = settings.PORT || 3000;
 
 app.listen(port, () => {
-  Logger.info(`Server running on port
-  : ${port}`);
+  Logger.info(`Server running on port: ${port}`);
 });
 
 module.exports = app;
