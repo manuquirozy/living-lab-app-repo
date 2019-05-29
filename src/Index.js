@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api', api)
+app.get('*', (req, res, next) => {
+  res.redirect('/')
+})
 app.use(resHandler.success)
 app.use(resHandler.error)
 
