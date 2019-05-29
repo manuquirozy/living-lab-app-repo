@@ -38,6 +38,7 @@ const displayData = (req, res) => {
             return res.json({ success: true, data: data });
             }).select(sensor).limit(20).sort([['updatedAt', 'descending']]);
     }
+    res.sendFile(path.join(__dirname, './public', 'index.html'));
 }
 
 module.exports = {

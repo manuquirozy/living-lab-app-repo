@@ -9,6 +9,8 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, './public')));
+
 app.use(cors());
 
 mongoose.Promise = global.Promise;
