@@ -14,7 +14,7 @@ const DataSchema = new Schema(
     rainfall: Number,
     battery: Number
   },
-  { timestamps: true }
+  { timestamps: true ,useUnifiedTopology: true}
 );
 
 // export the new Schema so we could modify it using Node.js
