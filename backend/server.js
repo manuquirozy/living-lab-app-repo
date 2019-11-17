@@ -10,8 +10,7 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
-const dbRoute =
-  'mongodb+srv://mquiroz:eynKPP79@cluster0-3hasg.mongodb.net/test?retryWrites=true';
+const dbRoute = 'mongodb://localhost:27017/fullstack_app';
 
 mongoose.connect(dbRoute, { useNewUrlParser: true });
 
