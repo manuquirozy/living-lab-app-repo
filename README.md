@@ -5,7 +5,9 @@ Forked from: https://github.com/manuquirozy/living-lab-app-repo
 Combined with: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
 
 The changes are:
+
 0. Removed the link to the original cloud account.
+
 1. Wrote javascript method that takes the data (the entire table), and transforms the colum  `temperature` into an array and returns it.
 That means you can show a specific entry of the datatable into the html/website.
 
