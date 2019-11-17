@@ -1,6 +1,8 @@
 This is an implementation of: https://medium.com/javascript-in-plain-english/full-stack-mongodb-react-node-js-express-js-in-one-simple-app-6cc8ed6de274
+
 Forked from: https://github.com/manuquirozy/living-lab-app-repo
-Combined with: 
+
+Combined with: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
 
 The changes are:
 0. Removed the link to the original cloud account.
