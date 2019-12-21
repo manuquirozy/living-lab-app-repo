@@ -35,22 +35,13 @@ class App extends Component {
     
     // This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
-    getArrayOfOneElementType(data) {
+    getSingleEntry(data) {
         var officersIds = [];
         data.forEach(function (data) {officersIds.push(data.temperature);})   
         console.log(officersIds[2]);
         return officersIds;
     }
     
-	// This transforms the data object property temperature into an array!
-    // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
-    getSingleEntry(data) {
-        var officersIds = [];
-        data.forEach(function (data) {officersIds.push(data.temperature);})   
-        console.log(officersIds[2]);
-        return officersIds[2];
-    }
-	
     
   render() {
     const { data } = this.state;
@@ -98,11 +89,8 @@ class App extends Component {
 		
                 
 		<br></br>
-		hi = {this.getArrayOfOneElementType(data)}
-                
-		<br></br>
 		hi = {this.getSingleEntry(data)}
-				
+                
       </div>
     );
   }
