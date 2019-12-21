@@ -83,7 +83,7 @@ class App extends Component {
 		
 		dat.temperature={data.map((dat) => dat.temperature)}
 		<br></br>
-		
+		dat.temperature={data.map((dat) => dat.temperature.length)}
 		<br></br>
 		dat.id={data.map((dat) => dat._id)}
 		
