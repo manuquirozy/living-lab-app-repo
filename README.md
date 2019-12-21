@@ -12,3 +12,21 @@ The changes are:
 That means you can show a specific entry of the datatable into the html/website.
 
 What I have learned from this, is that, instead of making separate queries to get a specific region/entry of the data table in MongoDB, it appearently is conventional to copy the entire datatable into the application, every `x` (mili)seconds. And you can get whatever you want from this table by transforming its columns into arrays in the `app.js` which has the body/render of the html/website.
+
+# How to use
+To get an element from the mongoDB you must run the backend, and after that, in a separate cmd, run the front ent (client):
+ If you get an error with npm start just type npm install <keyword> of error message, untill it doesn't give an error anymore. (repeat if the npm install gives an error as well).
+0. look at https://github.com/a-t-0/living-lab-app-repo
+open the project with netbeans
+open cmd with administrative priviliges 
+cd into subfolder /backend/`
+npm install
+npm start
+Now the backend should be running. 
+Then open a new cmd AS ADMIN
+cd into the /client/ folder.
+npm i ajv
+npm install
+npm install react-scripts
+(Make sure you don't have any of the client files opened in notepad/netbeans when you do this)
+then npm start then visit:http://localhost:3000/
