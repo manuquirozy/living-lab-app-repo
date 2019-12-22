@@ -30,3 +30,32 @@ npm install
 npm install react-scripts
 (Make sure you don't have any of the client files opened in notepad/netbeans when you do this)
 then npm start then visit:http://localhost:3000/
+
+# Understanding: client: 
+0. The `AppV2.js` connects to the MongoDB database named `fullstack_app` as specified in line 13 of `/backend/server.js/` containing:
+```
+const dbRoute = 'mongodb://localhost:27017/fullstack_app';
+```
+Within the database `fullstack_app` it searches in the collection named:`datas` which I can't find anywhere.  
+1. Then the first table displays the elements of all the documents in the collection `datas` that are listed in the columns.  (line 50 to 82).
+2. If the document contains an element with element name that is not specified in the table columns, the table will just show an empty row.
+3. The line:
+```
+dat.temperature={data.map((dat) => dat.temperature)}
+```
+displays the temperature. and the right part of the equal sign folds the dat.temperature value to contain all the values of element type temperatures into a single row.
+To understand how the arrow (lambda function) works, look here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+
+
+4. To get a specific element of a datatype E.g. temperature you can create a function, and put that above the html:
+getSingleEntry(data) {
+        var officersIds = [];
+        data.forEach(function (data) {officersIds.push(data.temperature);})   
+        console.log(officersIds[2]);
+        return officersIds[2];
+    }
+5. In the html in the `App.js` you can write comments with: `{/*This is a comment example*/}`
+6. `AppV5` puts the dropdownbox in the front end that is connected to the database and functions that can display a single element. It also has the option to add/modify elements of the dropdownbox.
+7. use <script> to hide the output of a computation. The result is stored beyond/after the scope of the script.
+8. `AppV8` : Made anyonymous function which is only called upon button click, using: https://stackoverflow.com/questions/14425397/onclick-function-runs-automatically 
+9. `AppV9` Made a function that is not executed on loading site, passes parameter and is called on click, using: https://upmostly.com/tutorials/pass-a-parameter-through-onclick-in-react
