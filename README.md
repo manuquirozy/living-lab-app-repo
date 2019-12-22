@@ -59,3 +59,4 @@ getSingleEntry(data) {
 7. use <script> to hide the output of a computation. The result is stored beyond/after the scope of the script.
 8. `AppV8` : Made anyonymous function which is only called upon button click, using: https://stackoverflow.com/questions/14425397/onclick-function-runs-automatically 
 9. `AppV9` Made a function that is not executed on loading site, passes parameter and is called on click, using: https://upmostly.com/tutorials/pass-a-parameter-through-onclick-in-react
+10. `AppV10` Fills a dropdownbox with the column `Temperature` of a collection named datas in db `fullstack_app`.
