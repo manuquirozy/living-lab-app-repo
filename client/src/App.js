@@ -180,7 +180,10 @@ class App extends Component {
 		{/*<button onClick={() => this.sayHello('James')}>Greet</button>*/}
 		<button onClick={() => this.sayHello(storeArray)}>Greet</button>	
 			
+		<br></br> 	
+
       </div>
+	
     );
   }
 }

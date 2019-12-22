@@ -60,3 +60,14 @@ getSingleEntry(data) {
 8. `AppV8` : Made anyonymous function which is only called upon button click, using: https://stackoverflow.com/questions/14425397/onclick-function-runs-automatically 
 9. `AppV9` Made a function that is not executed on loading site, passes parameter and is called on click, using: https://upmostly.com/tutorials/pass-a-parameter-through-onclick-in-react
 10. `AppV10` Fills a dropdownbox with the column `Temperature` of a collection named datas in db `fullstack_app`.
+11. You can make a backup of your mongoDB collections after you have downloaded the tools from: https://www.mongodb.com/download-center/community?jmp=docs
+To export db, see instructions at: https://docs.mongodb.com/manual/reference/program/mongoexport/ use: mongoexport --collection=<collection name>
+11.a Connection string = mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false
+11.b To run the server, use first create `c:/data\db`, then add `C:\Program Files\MongoDB\Server\4.2\bin` to path in environment variables `path`.
+11.c then run `mongod.exe` (note the d.)
+12. To implement (one)/many to many relations just enter the document id to each respective collection, as explained in: http://blog.markstarkman.com/blog/2011/09/15/mongodb-many-to-many-relationship-data-modeling/
+12.a so at university, add all the id's of the faculty, then at faculty, add the university.
+12.b then at faculty, add bachelor and master, then at bachelor add faculty.
+12.c then at e.g. bachelor, add courses, at courses at bachelor (OR master).
+
+13. You can automate starting up the mongdb server with: 
