@@ -5,8 +5,7 @@ var storeArray;
 
 class App extends Component {
     state = {
-        universities: [],
-		faculties: [],
+        data: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -14,17 +13,11 @@ class App extends Component {
         idToUpdate: null,
         objectToUpdate: null,
     };
-    	
+    
     componentDidMount() {
-        this.getUniversities();
+        this.getDataFromDb();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getUniversities, 5000);
-            this.setState({ intervalIsSet: interval });
-        }
-		
-		this.getFaculties();
-        if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 5000);
+            let interval = setInterval(this.getDataFromDb, 5000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -36,21 +29,12 @@ class App extends Component {
         }
     }
     
-    getUniversities = () => {
-        fetch('http://localhost:3001/api/getUniversities')
+    getDataFromDb = () => {
+        fetch('http://localhost:3001/api/getData')
                 .then((data) => data.json())
-                .then((res) => this.setState({ universities: res.data }));
-    };
-	
-	
-	getFaculties= () => {
-        fetch('http://localhost:3001/api/getFaculties')
-                .then((data) => data.json())
-				//set property "faculties" within the state" (won't throw error if you haven't defined property "faculties" within state".
-                .then((res) => this.setState({ faculties: res.data })); 
+                .then((res) => this.setState({ data: res.data }));
     };
     
-	
     // This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
     getArrayOfOneElementType(data) {
@@ -115,8 +99,7 @@ class App extends Component {
 
 	
   render() {
-    const { universities } = this.state;
-	const { faculties } = this.state;
+    const { data } = this.state;
     return (
       <div>
 	  
@@ -129,9 +112,9 @@ class App extends Component {
           </tr>
           </thead>
           <tbody>
-          {universities.length <= 0
+          {data.length <= 0
             ?   <tr><td colSpan="9">no data available</td></tr>
-            : universities.map((dat) => (
+            : data.map((dat) => (
               
                   <tr>
 				  <td>{dat.name}</td> 
@@ -141,33 +124,27 @@ class App extends Component {
           </tbody>   
         </table>
 		
-		
-		<br></br>
 		{/*This folds the data into a data temperature array*/}
-		dat.temperature={universities.map((dat) => dat.temperature)}
-		dat.universityName={universities.map((dat) => dat.name)}
-		
+		dat.temperature={data.map((dat) => dat.temperature)}
 		<br></br>
-		{/*This folds the data into a data temperature array*/}
-		dat.name={faculties.map((dat) => dat.name)}
 		
 		{/*This folds the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		dat.id={universities.map((dat) => dat._id)}
+		dat.id={data.map((dat) => dat._id)}
 		
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		arrayOfTemp = {this.getArrayOfOneElementType(universities)}
+		arrayOfTemp = {this.getArrayOfOneElementType(data)}
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		<br></br>
-		singleelement = {this.getSingleEntry(universities)}
+		singleelement = {this.getSingleEntry(data)}
 		
 		
 		{/* Passing an array within the html (declare variable storeArray at top of script, use <script> to hide the output))*/}
 		<br></br> 
 		<script>
-			{storeArray = this.getArrayOfOneElementType(universities)}
+			{storeArray = this.getArrayOfOneElementType(data)}
 		</script>
 		StoredArray={storeArray}
 		
