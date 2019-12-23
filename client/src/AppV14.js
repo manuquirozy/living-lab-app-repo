@@ -6,18 +6,6 @@ var storeArray;
 class App extends Component {
     state = {
         data: [],
-		faculties: [],
-        id: 0,
-        message: null,
-        intervalIsSet: false,
-        idToDelete: null,
-        idToUpdate: null,
-        objectToUpdate: null,
-    };
-	
-	faculties = {
-        data: [],
-		faculties: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -30,12 +18,6 @@ class App extends Component {
         this.getDataFromDb();
         if (!this.state.intervalIsSet) {
             let interval = setInterval(this.getDataFromDb, 5000);
-            this.setState({ intervalIsSet: interval });
-        }
-		
-		this.getFaculties();
-        if (!this.faculties.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 4000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -51,12 +33,6 @@ class App extends Component {
         fetch('http://localhost:3001/api/getData')
                 .then((data) => data.json())
                 .then((res) => this.setState({ data: res.data }));
-    };
-	
-	getFaculties = () => {
-        fetch('http://localhost:3001/api/getFaculties')
-                .then((faculties) => faculties.json())
-                .then((res) => this.setState({ faculties: res.faculties }));
     };
     
     // This transforms the data object property temperature into an array!
@@ -124,7 +100,6 @@ class App extends Component {
 	
   render() {
     const { data } = this.state;
-	const { faculties } = this.faculties;
     return (
       <div>
 	  
@@ -159,13 +134,6 @@ class App extends Component {
 		
 		<br></br>
 		TheData ={data.map((dat) => dat.name)}
-			
-		<br></br>
-		{/*TheData ={faculties.map((dat) => dat.name)}*/}
-		{/*facultyName ={faculties.map((dat) => dat.facultyName)}*/}
-		{/*facultyName ={faculties}*/}
-		facultyName ={faculties.map((dat) => dat.facultyName)}
-		facultyName ={faculties.map((dat) => dat.name)}
 			
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
