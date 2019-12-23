@@ -33,7 +33,7 @@ router.get('/getFaculties', (req, res) => {
 });
 
 router.get('/getUniversities', (req, res) => {
-  Faculties.find((err, data) => {
+  Universities.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });

@@ -25,9 +25,9 @@ class App extends Component {
     };
 	
     componentDidMount() {
-        this.getDataFromDb();
+        this.getUniversities();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getDataFromDb, 5000);
+            let interval = setInterval(this.getUniversities, 5000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -39,12 +39,20 @@ class App extends Component {
         }
     }
     
-    getDataFromDb = () => {
+    getUniversities = () => {
+        fetch('http://localhost:3001/api/getUniversities')
+                .then((data) => data.json())
+                .then((res) => this.setState({ universities: res.data }));
+    };
+	
+	/*
+	getFaculties= () => {
         fetch('http://localhost:3001/api/getFaculties')
                 .then((data) => data.json())
                 .then((res) => this.setState({ universities: res.data }));
     };
-    
+    */
+	
     // This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
     getArrayOfOneElementType(data) {
