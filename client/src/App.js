@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
 
 var storeArray;
 
@@ -16,11 +17,13 @@ class App extends Component {
     };
     	
     componentDidMount() {
-        this.getUniversities();
+        // read the mongodb collection universities in database "education"
+		this.getUniversities();
         if (!this.state.intervalIsSet) {
             let interval = setInterval(this.getUniversities, 5000);
             this.setState({ intervalIsSet: interval });
         }
+		
 		
 		this.getFaculties();
         if (!this.state.intervalIsSet) {
@@ -36,13 +39,29 @@ class App extends Component {
         }
     }
     
+	// our put method that uses our backend api
+    // to create new query into our data base
+    putDataToDB = (message) => {
+        let currentIds = this.state.data.map((data) => data.id);
+        let idToBeAdded = 0;
+        while (currentIds.includes(idToBeAdded)) {
+            ++idToBeAdded;
+        }
+        
+        axios.post('http://localhost:3001/api/putData', {
+            id: idToBeAdded,
+            message: message,
+        });
+    };
+	
+	// read the mongodb collection universities in database "education"
     getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
                 .then((data) => data.json())
                 .then((res) => this.setState({ universities: res.data }));
     };
 	
-	
+	// read the mongodb collection faculties in database "education"
 	getFaculties= () => {
         fetch('http://localhost:3001/api/getFaculties')
                 .then((data) => data.json())
@@ -50,7 +69,6 @@ class App extends Component {
                 .then((res) => this.setState({ faculties: res.data })); 
     };
     
-	
     // This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
     getArrayOfOneElementType(data) {
@@ -189,7 +207,18 @@ class App extends Component {
 		{/*<button onClick={() => this.sayHello('James')}>Greet</button>*/}
 		<button onClick={() => this.sayHello(storeArray)}>Greet</button>	
 			
-		<br></br> 	
+		<br></br>
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message)}>
+            ADD
+          </button>
+        </div>
 
       </div>
 	
