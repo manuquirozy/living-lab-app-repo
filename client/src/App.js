@@ -70,29 +70,30 @@ class App extends Component {
     // to create new query into our data base
     putDataToDB = (message,collectionName) => {
         // TODO: Check whether message is alphanumberic
-		// TODO: Check whether the message is not already in the array.
-		
-		switch(collectionName) {
-			case "universities":
-				alert("adding to univerities"+message)
-				axios.post('http://localhost:3001/api/putUniversity', {name: message});
-				break;
-			case "faculties":
-				axios.post('http://localhost:3001/api/putFaculty', {name: message});
-				break;
-			case "bachelors":
-				axios.post('http://localhost:3001/api/putBachelor', {name: message});
-				break;
-			case "masters":
-				axios.post('http://localhost:3001/api/putMaster', {name: message});
-				break;
-			case "courses":
-				axios.post('http://localhost:3001/api/putCourse', {name: message});
-				break;
+		if(this.correctInputFomat(message)){
+			// TODO: Check whether the message is not already in the array.
+			
+			switch(collectionName) {
+				case "universities":
+					alert("adding to univerities"+message)
+					axios.post('http://localhost:3001/api/putUniversity', {name: message});
+					break;
+				case "faculties":
+					axios.post('http://localhost:3001/api/putFaculty', {name: message});
+					break;
+				case "bachelors":
+					axios.post('http://localhost:3001/api/putBachelor', {name: message});
+					break;
+				case "masters":
+					axios.post('http://localhost:3001/api/putMaster', {name: message});
+					break;
+				case "courses":
+					axios.post('http://localhost:3001/api/putCourse', {name: message});
+					break;
+			}
 		}
     };
 	
-
 	// read the mongodb collection universities in database "education"
     getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
@@ -157,7 +158,6 @@ class App extends Component {
     }
 	
 	// This function adds an option to the dropdownbox using an array element of a query on the MongoDB.
-	
 	doSomething(h){
 		alert("Hello world")
 	}
@@ -190,7 +190,42 @@ class App extends Component {
 		}
 		return newArr;
 	}
+	
+	correctInputFomat(message){
+		if (!this.isTooLong(message)){
+			alert("Please enter something shorter than 200 characters.");
+			return false;
+		}
+		if (!this.isAlphaNumeric(message)){
+			alert("Please enter an alphanumeric statement.");
+			return false;
+		}
+		return true;
+	}
 
+	// Check if string is longer than 200
+	isTooLong(str) {
+		if (str.length > 200) {
+			return false;
+		}
+		return true;
+	};
+
+	// Check if string is alphaNumeric
+	isAlphaNumeric(str) {
+	  var code, i, len;
+
+	  for (i = 0, len = str.length; i < len; i++) {
+		code = str.charCodeAt(i);
+		if (!(code > 47 && code < 58) && // numeric (0-9)
+			!(code > 64 && code < 91) && // upper alpha (A-Z)
+			!(code > 96 && code < 123) && // lower alpha (a-z)
+			!(code == 32 || code == 45)) { // spacebar sign or hyphen
+		  return false;
+		}
+	  }
+	  return true;
+	};
 	
   render() {
     const { universities } = this.state;
