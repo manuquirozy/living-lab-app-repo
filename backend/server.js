@@ -29,13 +29,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
-router.get('/getFaculties', (req, res) => {
-  Faculties.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
 router.get('/getUniversities', (req, res) => {
   Universities.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -43,13 +36,55 @@ router.get('/getUniversities', (req, res) => {
   });
 });
 
+router.get('/getFaculties', (req, res) => {
+  Faculties.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
 
-// add a university
-router.post('/putUniversity', (req, res) => {
+router.get('/getBachelors', (req, res) => {
+  Bachelors.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get('/getMasters', (req, res) => {
+  Masters.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get('/getCourses', (req, res) => {
+  Courses.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+
+router.post('/putData', (req, res) => {
   let data = new Universities();
 
   console.log(req.body);
 
+  const { name, temperature } = req.body;
+  data.name = name;
+  data.temperature = temperature;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+
+/*
+// add a university
+router.post('/putUniversity', (req, res) => {
+  let data = new Universities();
+  console.log(req.body);  
   const { name } = req.body;
   data.name = name;
   data.save((err) => {
@@ -57,34 +92,7 @@ router.post('/putUniversity', (req, res) => {
     return res.json({ success: true });
   });
 });
-
-// add a university
-router.post('/putUniversity', (req, res) => {
-  let data = new Universities();
-
-  console.log(req.body);
-
-  const { name } = req.body;
-  data.name = name;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
-// add a university
-router.post('/putUniversity', (req, res) => {
-  let data = new Universities();
-
-  console.log(req.body);
-
-  const { name } = req.body;
-  data.name = name;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
+*/
 
 // add a faculty
 router.post('/putFaculty', (req, res) => {

@@ -8,6 +8,9 @@ class App extends Component {
     state = {
         universities: [],
 		faculties: [],
+		bachelors: [],
+		masters: [],
+		courses: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -20,14 +23,32 @@ class App extends Component {
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getUniversities, 5000);
+            let interval = setInterval(this.getUniversities, 1000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		
 		this.getFaculties();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 5000);
+            let interval = setInterval(this.getFaculties, 1000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		this.getBachelors();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(this.getBachelors, 1000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		this.getMasters();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(this.getMasters, 1000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		this.getCourses();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(this.getCourses, 1000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -39,14 +60,37 @@ class App extends Component {
         }
     }
     
-	// our put method that uses our backend api
-    // to create new query into our data base
-    putDataToDB = (message) => {
-        // TODO: Check whether message is alphanumberic
-		// TODO: Check whether the message is not already in the array.
+	
+	putDataToDbOriginal = (message,filler) => {
         axios.post('http://localhost:3001/api/putData', {
             name: message,
         });
+    };
+	
+	// our put method that uses our backend api
+    // to create new query into our data base
+    putDataToDB = (message,collectionName) => {
+        // TODO: Check whether message is alphanumberic
+		// TODO: Check whether the message is not already in the array.
+		
+		switch(collectionName) {
+			case "universities":
+				alert("adding to univerities"+message)
+				axios.post('http://localhost:3001/api/putUniversities', {name: message});
+				break;
+			case "faculties":
+				axios.post('http://localhost:3001/api/putFaculties', {name: message});
+				break;
+			case "bachelors":
+				axios.post('http://localhost:3001/api/putBachelors', {name: message});
+				break;
+			case "masters":
+				axios.post('http://localhost:3001/api/putMasters', {name: message});
+				break;
+			case "courses":
+				axios.post('http://localhost:3001/api/putCourses', {name: message});
+				break;
+		}
     };
 	
 
@@ -63,6 +107,27 @@ class App extends Component {
                 .then((data) => data.json())
 				//set property "faculties" within the state" (won't throw error if you haven't defined property "faculties" within state".
                 .then((res) => this.setState({ faculties: res.data })); 
+    };
+	
+	// read the mongodb collection bachelors in database "education"
+	getBachelors = () => {
+        fetch('http://localhost:3001/api/getBachelors')
+                .then((data) => data.json())
+                .then((res) => this.setState({ bachelors: res.data })); 
+    };
+	
+	// read the mongodb collection masters in database "education"
+	getMasters= () => {
+        fetch('http://localhost:3001/api/getMasters')
+                .then((data) => data.json())
+                .then((res) => this.setState({ masters: res.data })); 
+    };
+	
+	// read the mongodb collection courses in database "education"
+	getCourses= () => {
+        fetch('http://localhost:3001/api/getCourses')
+                .then((data) => data.json())
+                .then((res) => this.setState({ courses: res.data })); 
     };
     
     // This transforms the data object property temperature into an array!
@@ -213,7 +278,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => this.putDataToDB(this.state.message,"universities")}>
             Add your university
           </button>
         </div>
@@ -226,7 +291,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => this.putDataToDB(this.state.message,"faculties")}>
             Add your faculty
           </button>
         </div>
@@ -239,7 +304,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => this.putDataToDB(this.state.message,"bachelors")}>
             Add your bachelor
           </button>
         </div>
@@ -252,7 +317,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => this.putDataToDB(this.state.message,"masters")}>
             Add your master
           </button>
         </div>
@@ -265,8 +330,21 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message)}>
+          <button onClick={() => this.putDataToDB(this.state.message,"courses")}>
             Add your course
+          </button>
+        </div>
+		
+		// textbox with button to add your Original
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDbOriginal(this.state.message,"universities")}>
+            Add your original Uni
           </button>
         </div>
 
