@@ -3,7 +3,7 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Data = require('./faculties');
+const Faculties = require('./faculties');
 const Universities = require('./universities');
 
 const API_PORT = 3001;
@@ -26,21 +26,21 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 router.get('/getData', (req, res) => {
-  Data.find((err, data) => {
+  Faculties.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
 router.get('/getUniversities', (req, res) => {
-  Data.find((err, data) => {
+  Faculties.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true, data: data });
   });
 });
 
 router.post('/putData', (req, res) => {
-  let data = new Data();
+  let data = new Faculties();
 
   console.log(req.body);
 
