@@ -15,7 +15,7 @@ class App extends Component {
     };
     
 	faculties = {
-        data: [],
+        faculties: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -28,6 +28,12 @@ class App extends Component {
         this.getUniversities();
         if (!this.state.intervalIsSet) {
             let interval = setInterval(this.getUniversities, 5000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		this.getFaculties();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(this.getFaculties, 5000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -45,13 +51,13 @@ class App extends Component {
                 .then((res) => this.setState({ universities: res.data }));
     };
 	
-	/*
+	
 	getFaculties= () => {
         fetch('http://localhost:3001/api/getFaculties')
                 .then((data) => data.json())
-                .then((res) => this.setState({ universities: res.data }));
+                .then((res) => this.setState({ faculties: res.data }));
     };
-    */
+    
 	
     // This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
@@ -118,6 +124,7 @@ class App extends Component {
 	
   render() {
     const { universities } = this.state;
+	const { faculties } = this.faculties;
     return (
       <div>
 	  
@@ -142,9 +149,14 @@ class App extends Component {
           </tbody>   
         </table>
 		
+		
+		<br></br>
 		{/*This folds the data into a data temperature array*/}
 		dat.temperature={universities.map((dat) => dat.temperature)}
+		
 		<br></br>
+		{/*This folds the data into a data temperature array*/}
+		dat.faculty={faculties.map((dat) => dat.name)}
 		
 		{/*This folds the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
