@@ -6,6 +6,7 @@ var storeArray;
 class App extends Component {
     state = {
         universities: [],
+		faculties: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -124,7 +125,7 @@ class App extends Component {
 	
   render() {
     const { universities } = this.state;
-	const { faculties } = this.faculties;
+	const { faculties } = this.state;
     return (
       <div>
 	  
@@ -153,10 +154,11 @@ class App extends Component {
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
 		dat.temperature={universities.map((dat) => dat.temperature)}
+		dat.universityName={universities.map((dat) => dat.name)}
 		
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
-		dat.faculty={faculties.map((dat) => dat.name)}
+		dat.name={faculties.map((dat) => dat.name)}
 		
 		{/*This folds the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
