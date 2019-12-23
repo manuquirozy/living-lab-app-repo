@@ -3,8 +3,12 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Faculties = require('./faculties');
+
 const Universities = require('./universities');
+const Faculties = require('./faculties');
+const Bachelors = require('./bachelors');
+const Masters = require('./masters');
+const Courses = require('./courses');
 
 const API_PORT = 3001;
 const app = express();
@@ -39,19 +43,105 @@ router.get('/getUniversities', (req, res) => {
   });
 });
 
-router.post('/putData', (req, res) => {
-  let data = new Faculties();
+
+// add a university
+router.post('/putUniversity', (req, res) => {
+  let data = new Universities();
 
   console.log(req.body);
 
-  const { name, temperature } = req.body;
+  const { name } = req.body;
   data.name = name;
-  data.temperature = temperature;
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
+
+// add a university
+router.post('/putUniversity', (req, res) => {
+  let data = new Universities();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a university
+router.post('/putUniversity', (req, res) => {
+  let data = new Universities();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a faculty
+router.post('/putFaculty', (req, res) => {
+  let data = new Faculties();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a bachelor
+router.post('/putBachelor', (req, res) => {
+  let data = new Bachelors();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a master
+router.post('/putMaster', (req, res) => {
+  let data = new Masters();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a course
+router.post('/putCourse', (req, res) => {
+  let data = new Course();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
 
 // append /api for our http requests
 app.use('/api', router);
