@@ -72,7 +72,6 @@ class App extends Component {
         // TODO: Check whether message is alphanumberic
 		if(this.correctInputFomat(message)){
 			// TODO: Check whether the message is not already in the array.
-			
 			switch(collectionName) {
 				case "universities":
 					alert("adding to univerities"+message)
