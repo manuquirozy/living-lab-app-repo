@@ -107,8 +107,15 @@ class App extends Component {
         <table>
           <thead>
           <tr>
-			<th>name</th>
             <th>temperature</th>
+            <th>humidity</th>
+            <th>dewpoint</th>
+            <th>pressure</th>
+            <th>light</th>
+            <th>speed</th>
+            <th>direction</th>
+            <th>rainfall</th>
+            <th>battery</th>
           </tr>
           </thead>
           <tbody>
@@ -117,8 +124,15 @@ class App extends Component {
             : data.map((dat) => (
               
                   <tr>
-				  <td>{dat.name}</td> 
-                  <td>{dat.temperature}</td>
+                  <td>{dat.temperature}</td> 
+                  <td>{dat.humidity} </td> 
+                  <td>{dat.dewpoint} </td> 
+                  <td>{dat.pressure} </td> 
+                  <td>{dat.light} </td> 
+                  <td>{dat.speed} </td> 
+                  <td>{dat.direction} </td> 
+                  <td>{dat.rainfall} </td> 
+                  <td>{dat.battery} </td> 
                   </tr>               
               ))}
           </tbody>   

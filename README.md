@@ -65,9 +65,14 @@ To export db, see instructions at: https://docs.mongodb.com/manual/reference/pro
 11.a Connection string = mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass%20Community&ssl=false
 11.b To run the server, use first create `c:/data\db`, then add `C:\Program Files\MongoDB\Server\4.2\bin` to path in environment variables `path`.
 11.c then run `mongod.exe` (note the d.)
+11.d In the future add C:\Program Files\MongoDB\Server\4.2\bin/mongod.exe to startup on your server.
 12. To implement (one)/many to many relations just enter the document id to each respective collection, as explained in: http://blog.markstarkman.com/blog/2011/09/15/mongodb-many-to-many-relationship-data-modeling/
 12.a so at university, add all the id's of the faculty, then at faculty, add the university.
 12.b then at faculty, add bachelor and master, then at bachelor add faculty.
 12.c then at e.g. bachelor, add courses, at courses at bachelor (OR master).
 
 13. You can automate starting up the mongdb server with: 
+
+14.a YOu can select the database in file: 
+14.b You can select the collection in file `/backend/data.js` in line: `module.exports = mongoose.model("universities", DataSchema);`
+14.c TODO: Find out whether/how you can access multiple collections (from different databases, on 1 webpage).

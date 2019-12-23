@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
-const dbRoute = 'mongodb://localhost:27017/fullstack_app';
+const dbRoute = 'mongodb://localhost:27017/education';
 
 mongoose.connect(dbRoute, { useNewUrlParser: true });
 
@@ -36,18 +36,9 @@ router.post('/putData', (req, res) => {
 
   console.log(req.body);
 
-  const { temperature, humidity, dewpoint, pressure, light,
-    speed, direction, rainfall, battery } = req.body;
-
+  const { name, temperature } = req.body;
+  data.name = name;
   data.temperature = temperature;
-  data.humidity=humidity;
-  data.dewpoint=dewpoint;
-  data.pressure=pressure;
-  data.light=light;
-  data.speed=speed;
-  data.direction=direction;
-  data.rainfall=rainfall;
-  data.battery=battery;
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
