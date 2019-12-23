@@ -60,9 +60,8 @@ class App extends Component {
         }
     }
     
-	
 	putDataToDbOriginal = (message,filler) => {
-        axios.post('http://localhost:3001/api/putData', {
+        axios.post('http://localhost:3001/api/putUniversity', {
             name: message,
         });
     };
@@ -76,19 +75,19 @@ class App extends Component {
 		switch(collectionName) {
 			case "universities":
 				alert("adding to univerities"+message)
-				axios.post('http://localhost:3001/api/putUniversities', {name: message});
+				axios.post('http://localhost:3001/api/putUniversity', {name: message});
 				break;
 			case "faculties":
-				axios.post('http://localhost:3001/api/putFaculties', {name: message});
+				axios.post('http://localhost:3001/api/putFaculty', {name: message});
 				break;
 			case "bachelors":
-				axios.post('http://localhost:3001/api/putBachelors', {name: message});
+				axios.post('http://localhost:3001/api/putBachelor', {name: message});
 				break;
 			case "masters":
-				axios.post('http://localhost:3001/api/putMasters', {name: message});
+				axios.post('http://localhost:3001/api/putMaster', {name: message});
 				break;
 			case "courses":
-				axios.post('http://localhost:3001/api/putCourses', {name: message});
+				axios.post('http://localhost:3001/api/putCourse', {name: message});
 				break;
 		}
     };

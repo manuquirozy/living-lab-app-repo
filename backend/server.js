@@ -72,7 +72,6 @@ router.post('/putData', (req, res) => {
 
   const { name, temperature } = req.body;
   data.name = name;
-  data.temperature = temperature;
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
@@ -80,19 +79,20 @@ router.post('/putData', (req, res) => {
 });
 
 
-/*
+
 // add a university
 router.post('/putUniversity', (req, res) => {
   let data = new Universities();
   console.log(req.body);  
-  const { name } = req.body;
+ 
+ const { name } = req.body;
   data.name = name;
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
-*/
+
 
 // add a faculty
 router.post('/putFaculty', (req, res) => {
@@ -138,7 +138,7 @@ router.post('/putMaster', (req, res) => {
 
 // add a course
 router.post('/putCourse', (req, res) => {
-  let data = new Course();
+  let data = new Courses();
 
   console.log(req.body);
 
