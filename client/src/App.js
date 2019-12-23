@@ -5,8 +5,7 @@ var storeArray;
 
 class App extends Component {
     state = {
-        data: [],
-		faculties: [],
+        universityInfo: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -16,7 +15,7 @@ class App extends Component {
     };
 	
 	faculties = {
-        data: [],
+        universityInfo: [],
 		faculties: [],
         id: 0,
         message: null,
@@ -27,9 +26,9 @@ class App extends Component {
     };
     
     componentDidMount() {
-        this.getDataFromDb();
+        this.getFaculties();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getDataFromDb, 5000);
+            let interval = setInterval(this.getFaculties, 5000);
             this.setState({ intervalIsSet: interval });
         }
 		
@@ -50,13 +49,13 @@ class App extends Component {
     getDataFromDb = () => {
         fetch('http://localhost:3001/api/getData')
                 .then((data) => data.json())
-                .then((res) => this.setState({ data: res.data }));
+                .then((res) => this.setState({ universityInfo: res.data }));
     };
 	
 	getFaculties = () => {
         fetch('http://localhost:3001/api/getFaculties')
-                .then((faculties) => faculties.json())
-                .then((res) => this.setState({ faculties: res.faculties }));
+                .then((data) => data.json())
+                .then((res) => this.setState({ faculties: res.data }));
     };
     
     // This transforms the data object property temperature into an array!
@@ -123,7 +122,7 @@ class App extends Component {
 
 	
   render() {
-    const { data } = this.state;
+    const { universityInfo } = this.state;
 	const { faculties } = this.faculties;
     return (
       <div>
@@ -137,9 +136,9 @@ class App extends Component {
           </tr>
           </thead>
           <tbody>
-          {data.length <= 0
+          {universityInfo.length <= 0
             ?   <tr><td colSpan="9">no data available</td></tr>
-            : data.map((dat) => (
+            : universityInfo.map((dat) => (
               
                   <tr>
 				  <td>{dat.name}</td> 
@@ -150,36 +149,36 @@ class App extends Component {
         </table>
 		
 		{/*This folds the data into a data temperature array*/}
-		dat.temperature={data.map((dat) => dat.temperature)}
+		dat.temperature={universityInfo.map((dat) => dat.temperature)}
 		<br></br>
 		
 		{/*This folds the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		dat.id={data.map((dat) => dat._id)}
+		dat.id={universityInfo.map((dat) => dat._id)}
 		
 		<br></br>
-		TheData ={data.map((dat) => dat.name)}
+		TheData ={universityInfo.map((dat) => dat.name)}
 			
 		<br></br>
 		{/*TheData ={faculties.map((dat) => dat.name)}*/}
 		{/*facultyName ={faculties.map((dat) => dat.facultyName)}*/}
 		{/*facultyName ={faculties}*/}
 		facultyName ={faculties.map((dat) => dat.facultyName)}
-		facultyName ={faculties.map((dat) => dat.name)}
+		facultyName ={universityInfo.map((dat) => dat.facultyName)}
 			
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		arrayOfTemp = {this.getArrayOfOneElementType(data)}
+		arrayOfTemp = {this.getArrayOfOneElementType(universityInfo)}
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		<br></br>
-		singleelement = {this.getSingleEntry(data)}
+		singleelement = {this.getSingleEntry(universityInfo)}
 		
 		
 		{/* Passing an array within the html (declare variable storeArray at top of script, use <script> to hide the output))*/}
 		<br></br> 
 		<script>
-			{storeArray = this.getArrayOfOneElementType(data)}
+			{storeArray = this.getArrayOfOneElementType(universityInfo)}
 		</script>
 		StoredArray={storeArray}
 		
