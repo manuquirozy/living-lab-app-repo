@@ -132,9 +132,6 @@ class App extends Component {
 		<br></br>
 		dat.id={data.map((dat) => dat._id)}
 		
-		<br></br>
-		TheData ={data.map((dat) => dat.name)}
-			
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
 		arrayOfTemp = {this.getArrayOfOneElementType(data)}

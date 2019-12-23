@@ -23,14 +23,16 @@ const FacultyCollection = new Schema(
     name: String,
 	amountOfBuildings: Number
   },
-  { collection: 'faculties' },
+  { collection: 'faculty' },
   { timestamps: true ,useUnifiedTopology: true}
 );
 
 // export the new Schema so we could modify it using Node.js
+//module.exports = mongoose.model("faculty", FacultyCollection);
+//module.exports = mongoose.model(DataSchema, FacultyCollection);
 
-module.exports = mongoose.model("universities", DataSchema);
-module.exports = mongoose.model("faculties", FacultyCollection);
-
-//module.exports.faculty = mongoose.model("faculty", FacultyCollection);
-//module.exports.universities = mongoose.model("universities", DataSchema);
+let schema = {
+    'University': mongoose.model('university', DataSchema),
+	'Faculty': mongoose.model('faculty', FacultyCollection)
+};
+module.exports = schema;
