@@ -42,10 +42,8 @@ class App extends Component {
 	// our put method that uses our backend api
     // to create new query into our data base
     putDataToDB = (message) => {
-        //let currentIds = this.state.data.map((data) => data.id);
-		let currentIds = this.state.universities.map((dat) => dat.name)
-        let idToBeAdded = "test uni name";
-        
+        // TODO: Check whether message is alphanumberic
+		// TODO: Check whether the message is not already in the array.
         axios.post('http://localhost:3001/api/putData', {
             name: message,
         });
@@ -86,7 +84,7 @@ class App extends Component {
     }
 	
 	// This function adds an option to the dropdownbox.
-	addOption(){
+	addOptionToDropdown(){
         var inputElemAdd = document.getElementsByTagName('select');
         var selectBox = document.getElementById("dynamic-select");        
         selectBox[0].label = "Wrote 0";
@@ -197,8 +195,8 @@ class App extends Component {
         </select>
 		
 		<br></br> 		
-		{/*Add an element to the dropdownbox (must include function "addOption" above html in this App.js to make it work)*/}
-		<button onClick={this.addOption}>add item</button> {/*// remove the brackets to make it happen at onclick*/}
+		{/*Add an element to the dropdownbox (must include function "addOptionToDropdown" above html in this App.js to make it work)*/}
+		<button onClick={this.addOptionToDropdown}>add item</button> {/*// remove the brackets to make it happen at onclick*/}
      		
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
@@ -206,6 +204,8 @@ class App extends Component {
 		<button onClick={() => this.sayHello(storeArray)}>Greet</button>	
 			
 		<br></br>
+	
+		// textbox with button to add your university
 		<div style={{ padding: '10px' }}>
           <input
             type="text"
@@ -214,7 +214,59 @@ class App extends Component {
             style={{ width: '200px' }}
           />
           <button onClick={() => this.putDataToDB(this.state.message)}>
-            ADD
+            Add your university
+          </button>
+        </div>
+
+		// textbox with button to add your faculty
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message)}>
+            Add your faculty
+          </button>
+        </div>
+
+		// textbox with button to add your bachelor
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message)}>
+            Add your bachelor
+          </button>
+        </div>
+
+		// textbox with button to add your master
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message)}>
+            Add your master
+          </button>
+        </div>
+
+		// textbox with button to add your course
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message)}>
+            Add your course
           </button>
         </div>
 
