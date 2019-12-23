@@ -42,18 +42,16 @@ class App extends Component {
 	// our put method that uses our backend api
     // to create new query into our data base
     putDataToDB = (message) => {
-        let currentIds = this.state.data.map((data) => data.id);
-        let idToBeAdded = 0;
-        while (currentIds.includes(idToBeAdded)) {
-            ++idToBeAdded;
-        }
+        //let currentIds = this.state.data.map((data) => data.id);
+		let currentIds = this.state.universities.map((dat) => dat.name)
+        let idToBeAdded = "test uni name";
         
         axios.post('http://localhost:3001/api/putData', {
-            id: idToBeAdded,
-            message: message,
+            name: message,
         });
     };
 	
+
 	// read the mongodb collection universities in database "education"
     getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
