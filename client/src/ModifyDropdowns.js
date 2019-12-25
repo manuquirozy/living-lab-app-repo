@@ -10,7 +10,7 @@ class ModifyDropdowns {
 	constructor() {
 	}
 	
-	    // This transforms the data object property temperature into an array!
+	// This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
     getArrayOfOneElementType(data) {
         var officersIds = [];

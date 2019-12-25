@@ -13,11 +13,6 @@ const ModifyDropdowns = require('./ModifyDropdowns');
 // construct class to check if input satisfies input requirements
 const FormatChecks = require('./FormatChecks');
 
-//Source: https://www.w3schools.com/js/js_output.asp
-var test = require('./test');
-
-test.func1();
-test.func2();
 class App extends Component {
     state = {
         universities: [],

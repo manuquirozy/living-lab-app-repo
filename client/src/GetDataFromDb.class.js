@@ -11,7 +11,8 @@ class GetDataFromDb {
     getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
                 .then((data) => data.json())
-                .then((res) => this.setState({ universities: res.data }));
+                //.then((res) => this.setState({ universities: res.data }));
+				.then(return res)
     };
 	
 	// read the mongodb collection faculties in database "education"

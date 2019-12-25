@@ -89,4 +89,4 @@ class FormatChecks {
 	}
 }
 
-//export default FormatChecks;
+export default FormatChecks;
