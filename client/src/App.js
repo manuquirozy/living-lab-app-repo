@@ -4,10 +4,14 @@ import axios from 'axios';
 
 var storeArray;
 
-const FormatChecks = require('./FormatChecks');
-//const GetDataFromDb = require('./GetDataFromDb');
+// construct class to perform miscalleneous dropdown box modifications
 const ModifyDropdowns = require('./ModifyDropdowns');
+
+//Create class that contains the actual get methods
 const GetDataFromDb = require('./GetDataFromDb')();
+
+// construct class to check if input satisfies input requirements
+const FormatChecks = require('./FormatChecks');
 
 class App extends Component {
     state = {
@@ -23,12 +27,6 @@ class App extends Component {
         idToUpdate: null,
         objectToUpdate: null,
     };
-    	
-	//Create class that contains the actual get methods
-	//getDataFromDb = new GetDataFromDb();
-	
-	// construct class to check if input satisfies input requirements
-	//formatChecks = new FormatChecks();
 
 	// Method that calls the methods that get the database collections every <orange nr> ms
     componentDidMount() {
@@ -102,9 +100,7 @@ class App extends Component {
 		}
     };
 	
-
-
-	
+// This is what generates the design/html of the webpage with JSX
   render() {
     const { universities } = this.state;
 	const { faculties } = this.state;
@@ -262,7 +258,6 @@ class App extends Component {
         </div>
 
       </div>
-	
     );
   }
 }
