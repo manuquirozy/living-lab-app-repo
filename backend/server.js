@@ -3,8 +3,12 @@ const express = require('express');
 var cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const Faculties = require('./faculties');
+
 const Universities = require('./universities');
+const Faculties = require('./faculties');
+const Bachelors = require('./bachelors');
+const Masters = require('./masters');
+const Courses = require('./courses');
 
 const API_PORT = 3001;
 const app = express();
@@ -25,13 +29,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
-router.get('/getFaculties', (req, res) => {
-  Faculties.find((err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true, data: data });
-  });
-});
-
 router.get('/getUniversities', (req, res) => {
   Universities.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -39,19 +36,120 @@ router.get('/getUniversities', (req, res) => {
   });
 });
 
+router.get('/getFaculties', (req, res) => {
+  Faculties.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get('/getBachelors', (req, res) => {
+  Bachelors.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get('/getMasters', (req, res) => {
+  Masters.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.get('/getCourses', (req, res) => {
+  Courses.find((err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true, data: data });
+  });
+});
+
+
 router.post('/putData', (req, res) => {
-  let data = new Faculties();
+  let data = new Universities();
 
   console.log(req.body);
 
   const { name, temperature } = req.body;
   data.name = name;
-  data.temperature = temperature;
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
+
+
+
+// add a university
+router.post('/putUniversity', (req, res) => {
+  let data = new Universities();
+  console.log(req.body);  
+ 
+ const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+
+// add a faculty
+router.post('/putFaculty', (req, res) => {
+  let data = new Faculties();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a bachelor
+router.post('/putBachelor', (req, res) => {
+  let data = new Bachelors();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a master
+router.post('/putMaster', (req, res) => {
+  let data = new Masters();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
+// add a course
+router.post('/putCourse', (req, res) => {
+  let data = new Courses();
+
+  console.log(req.body);
+
+  const { name } = req.body;
+  data.name = name;
+  data.save((err) => {
+    if (err) return res.json({ success: false, error: err });
+    return res.json({ success: true });
+  });
+});
+
 
 // append /api for our http requests
 app.use('/api', router);

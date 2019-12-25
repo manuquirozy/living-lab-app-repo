@@ -73,6 +73,9 @@ To export db, see instructions at: https://docs.mongodb.com/manual/reference/pro
 
 13. You can automate starting up the mongdb server with: 
 
-14.a YOu can select the database in file: 
-14.b You can select the collection in file `/backend/data.js` in line: `module.exports = mongoose.model("universities", DataSchema);`
-14.c TODO: Find out whether/how you can access multiple collections (from different databases, on 1 webpage).
+14.a YOu can select the database in file: /backend/server.js 
+14.b You can select the collection `faculties` in file `/backend/faculties.js` in line: `module.exports = mongoose.model("faculties", Faculties);`
+14.c To read from a different collections from a single database, add the collections to the state, create a separate link in `server.js` and read it separately in `app.js`
+14.d shown in: https://github.com/a-t-0/living-lab-app-repo/commit/0ccb45ed31e4d90648ba575b79caaae2dd2aa675
+
+15. Working add to uni in: https://github.com/a-t-0/living-lab-app-repo/commit/a176a348d828167991010d41ba042b5f4fd985f8

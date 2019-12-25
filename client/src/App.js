@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
 
 var storeArray;
+
+// construct class to perform miscalleneous dropdown box modifications
+const ModifyDropdowns = require('./ModifyDropdowns');
+
+//Create class that contains the actual get methods
+const GetDataFromDb = require('./GetDataFromDb')();
+
+// construct class to check if input satisfies input requirements
+const FormatChecks = require('./FormatChecks');
 
 class App extends Component {
     state = {
         universities: [],
 		faculties: [],
+		bachelors: [],
+		masters: [],
+		courses: [],
         id: 0,
         message: null,
         intervalIsSet: false,
@@ -14,109 +27,84 @@ class App extends Component {
         idToUpdate: null,
         objectToUpdate: null,
     };
-    	
+
+	// Method that calls the methods that get the database collections every <orange nr> ms
     componentDidMount() {
-        this.getUniversities();
+		
+        // read the mongodb collection universities in database "education"
+		GetDataFromDb.getUniversities();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getUniversities, 5000);
+            let interval = setInterval(GetDataFromDb.getUniversities, 1000);
             this.setState({ intervalIsSet: interval });
         }
 		
-		this.getFaculties();
+		GetDataFromDb.getFaculties();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 5000);
+            let interval = setInterval(GetDataFromDb.getFaculties, 1000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		GetDataFromDb.getBachelors();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(GetDataFromDb.getBachelors, 1000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		GetDataFromDb.getMasters();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(GetDataFromDb.getMasters, 1000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
+		GetDataFromDb.getCourses();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(GetDataFromDb.getCourses, 1000);
             this.setState({ intervalIsSet: interval });
         }
     }
     
+	// Unkown what this does
     componentWillUnmount() {
         if (this.state.intervalIsSet) {
             clearInterval(this.state.intervalIsSet);
             this.setState({ intervalIsSet: null });
         }
     }
-    
-    getUniversities = () => {
-        fetch('http://localhost:3001/api/getUniversities')
-                .then((data) => data.json())
-                .then((res) => this.setState({ universities: res.data }));
-    };
 	
-	
-	getFaculties= () => {
-        fetch('http://localhost:3001/api/getFaculties')
-                .then((data) => data.json())
-				//set property "faculties" within the state" (won't throw error if you haven't defined property "faculties" within state".
-                .then((res) => this.setState({ faculties: res.data })); 
-    };
-    
-	
-    // This transforms the data object property temperature into an array!
-    // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
-    getArrayOfOneElementType(data) {
-        var officersIds = [];
-        data.forEach(function (data) {officersIds.push(data.temperature);})   
-        console.log(officersIds[2]);
-        return officersIds;
-    }
-    
-	// This transforms the data object property temperature into an array!
-    // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
-    getSingleEntry(data) {
-        var officersIds = [];
-        data.forEach(function (data) {officersIds.push(data.temperature);})   
-        console.log(officersIds[2]);
-        return officersIds[2];
-    }
-	
-	// This function adds an option to the dropdownbox.
-	addOption(){
-        var inputElemAdd = document.getElementsByTagName('select');
-        var selectBox = document.getElementById("dynamic-select");        
-        selectBox[0].label = "Wrote 0";
-        selectBox[2].label = "Wrote 2";
-        selectBox[3] = new Option('hi, added last label', 'id0',false,false); // add option
-    }
-	
-	// This function adds an option to the dropdownbox using an array element of a query on the MongoDB.
-	
-	doSomething(h){
-		alert("Hello world")
-	}
-
-	sayHello(arr) {	
-		var inputElemAdd = document.getElementsByTagName('select');
-        var selectBox = document.getElementById("dynamic-select");        
-		var i
-		var newArr = this.filterUndefineds(arr);
+	// put data into database via backend
+    putDataToDB = (message,collectionName) => {
 		
-		// set length of dropdownbox to incomming array
-		selectBox.length = newArr.length;
-		
-		// assign arrays
-		for (i = 0; i < newArr.length; i++) {
-			selectBox[i].label = newArr[i];
-		}
-	}
+		// check input format against requirements
+		if(this.formatChecks.correctInputFomat(message)){
 	
-	// Filter undefined values from an array
-	filterUndefineds(arr){
-		var i
-		var newArr = [];
-		
-		// only copy the non-undefined values from incoming array to newArr
-		for (i = 0; i < arr.length; i++) {
-			if (arr[i] !== undefined) {
-				newArr.push(arr[i]);
+			// check whether the message is not already in the array.
+			if(this.formatChecks.isNewEntryInDb(message,collectionName,this.state)){
+				switch(collectionName) {
+					case "universities":
+						axios.post('http://localhost:3001/api/putUniversity', {name: message});
+						break;
+					case "faculties":
+						axios.post('http://localhost:3001/api/putFaculty', {name: message});
+						break;
+					case "bachelors":
+						axios.post('http://localhost:3001/api/putBachelor', {name: message});
+						break;
+					case "masters":
+						axios.post('http://localhost:3001/api/putMaster', {name: message});
+						break;
+					case "courses":
+						axios.post('http://localhost:3001/api/putCourse', {name: message});
+						break;
+				}
 			}
 		}
-		return newArr;
-	}
-
+    };
 	
+// This is what generates the design/html of the webpage with JSX
   render() {
     const { universities } = this.state;
 	const { faculties } = this.state;
+	
     return (
       <div>
 	  
@@ -157,17 +145,17 @@ class App extends Component {
 		
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		arrayOfTemp = {this.getArrayOfOneElementType(universities)}
+		arrayOfTemp = ModifyDropdowns.getArrayOfOneElementType(universities)
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		<br></br>
-		singleelement = {this.getSingleEntry(universities)}
+		singleelement = ModifyDropdowns.getSingleEntry(universities)
 		
 		
 		{/* Passing an array within the html (declare variable storeArray at top of script, use <script> to hide the output))*/}
 		<br></br> 
 		<script>
-			{storeArray = this.getArrayOfOneElementType(universities)}
+			storeArray = ModifyDropdowns.getArrayOfOneElementType(universities)
 		</script>
 		StoredArray={storeArray}
 		
@@ -181,18 +169,95 @@ class App extends Component {
         </select>
 		
 		<br></br> 		
-		{/*Add an element to the dropdownbox (must include function "addOption" above html in this App.js to make it work)*/}
-		<button onClick={this.addOption}>add item</button> {/*// remove the brackets to make it happen at onclick*/}
+		{/*Add an element to the dropdownbox (must include function "addOptionToDropdown" above html in this App.js to make it work)*/}
+		<button onClick={ModifyDropdowns.addOptionToDropdown}>add item</button> {/*// remove the brackets to make it happen at onclick*/}
      		
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
-		{/*<button onClick={() => this.sayHello('James')}>Greet</button>*/}
-		<button onClick={() => this.sayHello(storeArray)}>Greet</button>	
+		{/*<button onClick={() => ModifyDropdowns.sayHello('James')}>Greet</button>*/}
+		<button onClick={() => ModifyDropdowns.sayHello(storeArray)}>Greet</button>	
 			
-		<br></br> 	
+		<br></br>
+	
+		// textbox with button to add your university
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message,"universities")}>
+            Add your university
+          </button>
+        </div>
+
+		// textbox with button to add your faculty
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message,"faculties")}>
+            Add your faculty
+          </button>
+        </div>
+
+		// textbox with button to add your bachelor
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message,"bachelors")}>
+            Add your bachelor
+          </button>
+        </div>
+
+		// textbox with button to add your master
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message,"masters")}>
+            Add your master
+          </button>
+        </div>
+
+		// textbox with button to add your course
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDB(this.state.message,"courses")}>
+            Add your course
+          </button>
+        </div>
+		
+		// textbox with button to add your Original
+		<div style={{ padding: '10px' }}>
+          <input
+            type="text"
+            onChange={(e) => this.setState({ message: e.target.value })}
+            placeholder="add something in the database"
+            style={{ width: '200px' }}
+          />
+          <button onClick={() => this.putDataToDbOriginal(this.state.message,"universities")}>
+            Add your original Uni
+          </button>
+        </div>
 
       </div>
-	
     );
   }
 }
