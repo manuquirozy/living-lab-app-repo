@@ -5,19 +5,17 @@ import axios from 'axios';
 var storeArray;
 
 // construct class to perform miscalleneous dropdown box modifications
-const ModifyDropdowns = require('./ModifyDropdowns');
+var ModifyDropdowns = require('./ModifyDropdownsV0');
 
 //Create class that contains the actual get methods
 //const this = require('./this')();
 
 // construct class to check if input satisfies input requirements
-const FormatChecks = require('./FormatChecks');
+var FormatChecks = require('./FormatChecksV0');
 
-//Source: https://www.w3schools.com/js/js_output.asp
-var test = require('./test');
+// Put data into database
+//var PutDataInDb = require('./PutDataInDb');
 
-test.func1();
-test.func2();
 class App extends Component {
     state = {
         universities: [],
@@ -36,6 +34,7 @@ class App extends Component {
 	// Method that calls the methods that get the database collections every <orange nr> ms
     componentDidMount() {
 		
+		//************************************Periodically call methods that get data from db*******************
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
@@ -76,16 +75,16 @@ class App extends Component {
         }
     }
 	
-	// put data into database via backend
-    putDataToDB = (message,collectionName) => {
+	//***********************************************************Put data in db*******************
+	putDataToDB = (message,collectionName) => {
 		
-		var FormatChecks = new FormatChecks();
+		//var FormatChecks = new FormatChecks();
 		
 		// check input format against requirements
-		if(this.FormatChecks.correctInputFomat(message)){
+		if(FormatChecks.correctInputFomat(message,collectionName,this.state)){
 	
-			// check whether the message is not already in the array.
-			if(this.FormatChecks.isNewEntryInDb(message,collectionName,this.state)){
+			
+			//if(FormatChecks.isNewEntryInDb(message,collectionName,this.state)){
 				switch(collectionName) {
 					case "universities":
 						axios.post('http://localhost:3001/api/putUniversity', {name: message});
@@ -103,10 +102,11 @@ class App extends Component {
 						axios.post('http://localhost:3001/api/putCourse', {name: message});
 						break;
 				}
-			}
+			//}
 		}
     };
-	
+
+	//***********************************************************Get data from db*******************
 	// read the mongodb collection universities in database "education"
     getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
@@ -231,6 +231,8 @@ class App extends Component {
             style={{ width: '200px' }}
           />
           <button onClick={() => this.putDataToDB(this.state.message,"universities")}>
+		  {/*<button onClick={() => PutDataInDb.func2(this.state.message,"universities",FormatChecks)}>*/}
+		  
             Add your university
           </button>
         </div>
