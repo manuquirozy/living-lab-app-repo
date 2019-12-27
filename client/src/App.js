@@ -225,7 +225,7 @@ class App extends Component {
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
 		{/*<button onClick={() => ModifyDropdowns.fillDropdownWithArr('James')}>Greet</button>*/}
-		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(storeArray)}>Greet</button>	
+		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(faculties.map((dat) => dat.name))}>Greet</button>	
 			
 		<br></br>
 	

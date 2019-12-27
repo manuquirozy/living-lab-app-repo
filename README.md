@@ -83,3 +83,7 @@ To export db, see instructions at: https://docs.mongodb.com/manual/reference/pro
 17. `AppV17` has a function call from another method. Note these methods are not (yet classes), because I was not (yet) able to call a method/function from another class from another file. The example call is performed from file `test.js` at the top of `AppV17.js`. Now the `FormatChecks`,`ModifyDropdowns` and `getUniversities` to `getCourses` methods can be modified and put into another file.
 18. `AppV18` contains the functionalities of FormatChecks, PutDataInDb sperated into files and cleaned commented code.
 19. `AppV19` contains the first attemt to populate the dropdownboxes with university data.
+20. `AppV20` contains the code to fill the dropdownbox with all faculty names. (To pass an array of something to a function, just pass the exact same thing that prints the row of the array content, e.g.:
+```
+<button onClick={() => ModifyDropdowns.fillDropdownWithArr(faculties.map((dat) => dat.name))}>Greet</button>	
+```
