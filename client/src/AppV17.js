@@ -5,17 +5,19 @@ import axios from 'axios';
 var storeArray;
 
 // construct class to perform miscalleneous dropdown box modifications
-var ModifyDropdowns = require('./ModifyDropdownsV0');
+const ModifyDropdowns = require('./ModifyDropdowns');
 
 //Create class that contains the actual get methods
 //const this = require('./this')();
 
 // construct class to check if input satisfies input requirements
-var FormatChecks = require('./FormatChecksV0');
+const FormatChecks = require('./FormatChecks');
 
-// Put data into database
-//var PutDataInDb = require('./PutDataInDb');
+//Source: https://www.w3schools.com/js/js_output.asp
+var test = require('./test');
 
+test.func1();
+test.func2();
 class App extends Component {
     state = {
         universities: [],
@@ -34,7 +36,6 @@ class App extends Component {
 	// Method that calls the methods that get the database collections every <orange nr> ms
     componentDidMount() {
 		
-		//************************************Periodically call methods that get data from db*******************
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
@@ -75,16 +76,16 @@ class App extends Component {
         }
     }
 	
-	//***********************************************************Put data in db*******************
-	putDataToDB = (message,collectionName) => {
+	// put data into database via backend
+    putDataToDB = (message,collectionName) => {
 		
-		//var FormatChecks = new FormatChecks();
+		var FormatChecks = new FormatChecks();
 		
 		// check input format against requirements
-		if(FormatChecks.correctInputFomat(message,collectionName,this.state)){
+		if(this.FormatChecks.correctInputFomat(message)){
 	
-			
-			//if(FormatChecks.isNewEntryInDb(message,collectionName,this.state)){
+			// check whether the message is not already in the array.
+			if(this.FormatChecks.isNewEntryInDb(message,collectionName,this.state)){
 				switch(collectionName) {
 					case "universities":
 						axios.post('http://localhost:3001/api/putUniversity', {name: message});
@@ -102,11 +103,10 @@ class App extends Component {
 						axios.post('http://localhost:3001/api/putCourse', {name: message});
 						break;
 				}
-			//}
+			}
 		}
     };
-
-	//***********************************************************Get data from db*******************
+	
 	// read the mongodb collection universities in database "education"
     getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
@@ -143,7 +143,6 @@ class App extends Component {
                 .then((res) => this.setState({ courses: res.data })); 
     };
 	
-	
 // This is what generates the design/html of the webpage with JSX
   render() {
     const { universities } = this.state;
@@ -176,38 +175,32 @@ class App extends Component {
 		
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
+		dat.temperature={universities.map((dat) => dat.temperature)}
 		dat.universityName={universities.map((dat) => dat.name)}
 		
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
-		dat.facultyName={faculties.map((dat) => dat.name)}
+		dat.name={faculties.map((dat) => dat.name)}
 		
 		{/*This folds the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		dat.facultyId={universities.map((dat) => dat._id)}
+		dat.id={universities.map((dat) => dat._id)}
 		
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		{/*arrayOfTemp = {ModifyDropdowns.getArrayOfOneElementType(universities)}*/}
+		arrayOfTemp = ModifyDropdowns.getArrayOfOneElementType(universities)
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		<br></br>
-		singleelement = {ModifyDropdowns.getSingleEntry(universities)}
+		singleelement = ModifyDropdowns.getSingleEntry(universities)
 		
 		
 		{/* Passing an array within the html (declare variable storeArray at top of script, use <script> to hide the output))*/}
-		{/*<br></br> 
-	<script>
-		storeArray = {ModifyDropdowns.getArrayOfOneElementType(universities)}
-	</script>
-		*/}
-		
+		<br></br> 
+		<script>
+			storeArray = ModifyDropdowns.getArrayOfOneElementType(universities)
+		</script>
 		StoredArray={storeArray}
-		<br></br>
-		
-		{/*StoredArrayThree={ModifyDropdowns.getArrayOfOneElementTypegetArrayOfOneElementType(universities)}*/}
-		StoredArrayThree={universities.map((dat) => ModifyDropdowns.getArrayOfOneElementType(universities))}
-		
 		
 		<br></br> 
 		{/*Dropdownbox*/}
@@ -224,8 +217,8 @@ class App extends Component {
      		
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
-		{/*<button onClick={() => ModifyDropdowns.fillDropdownWithArr('James')}>Greet</button>*/}
-		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(storeArray)}>Greet</button>	
+		{/*<button onClick={() => ModifyDropdowns.sayHello('James')}>Greet</button>*/}
+		<button onClick={() => ModifyDropdowns.sayHello(storeArray)}>Greet</button>	
 			
 		<br></br>
 	
@@ -238,8 +231,6 @@ class App extends Component {
             style={{ width: '200px' }}
           />
           <button onClick={() => this.putDataToDB(this.state.message,"universities")}>
-		  {/*<button onClick={() => PutDataInDb.func2(this.state.message,"universities",FormatChecks)}>*/}
-		  
             Add your university
           </button>
         </div>

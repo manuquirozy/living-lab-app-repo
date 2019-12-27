@@ -143,7 +143,6 @@ class App extends Component {
                 .then((res) => this.setState({ courses: res.data })); 
     };
 	
-	
 // This is what generates the design/html of the webpage with JSX
   render() {
     const { universities } = this.state;
@@ -176,38 +175,32 @@ class App extends Component {
 		
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
+		dat.temperature={universities.map((dat) => dat.temperature)}
 		dat.universityName={universities.map((dat) => dat.name)}
 		
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
-		dat.facultyName={faculties.map((dat) => dat.name)}
+		dat.name={faculties.map((dat) => dat.name)}
 		
 		{/*This folds the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		dat.facultyId={universities.map((dat) => dat._id)}
+		dat.id={universities.map((dat) => dat._id)}
 		
        {/*This calls a function that puts the data into a data_id array (for all documnts in collection datas)*/}
 		<br></br>
-		{/*arrayOfTemp = {ModifyDropdowns.getArrayOfOneElementType(universities)}*/}
+		arrayOfTemp = ModifyDropdowns.getArrayOfOneElementType(universities)
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		<br></br>
-		singleelement = {ModifyDropdowns.getSingleEntry(universities)}
+		singleelement = ModifyDropdowns.getSingleEntry(universities)
 		
 		
 		{/* Passing an array within the html (declare variable storeArray at top of script, use <script> to hide the output))*/}
-		{/*<br></br> 
-	<script>
-		storeArray = {ModifyDropdowns.getArrayOfOneElementType(universities)}
-	</script>
-		*/}
-		
+		<br></br> 
+		<script>
+			storeArray = ModifyDropdowns.getArrayOfOneElementType(universities)
+		</script>
 		StoredArray={storeArray}
-		<br></br>
-		
-		{/*StoredArrayThree={ModifyDropdowns.getArrayOfOneElementTypegetArrayOfOneElementType(universities)}*/}
-		StoredArrayThree={universities.map((dat) => ModifyDropdowns.getArrayOfOneElementType(universities))}
-		
 		
 		<br></br> 
 		{/*Dropdownbox*/}
@@ -224,8 +217,8 @@ class App extends Component {
      		
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
-		{/*<button onClick={() => ModifyDropdowns.fillDropdownWithArr('James')}>Greet</button>*/}
-		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(storeArray)}>Greet</button>	
+		{/*<button onClick={() => ModifyDropdowns.sayHello('James')}>Greet</button>*/}
+		<button onClick={() => ModifyDropdowns.sayHello(storeArray)}>Greet</button>	
 			
 		<br></br>
 	
