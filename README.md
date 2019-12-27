@@ -81,3 +81,5 @@ To export db, see instructions at: https://docs.mongodb.com/manual/reference/pro
 15. Working add to uni in: https://github.com/a-t-0/living-lab-app-repo/commit/a176a348d828167991010d41ba042b5f4fd985f8
 
 17. `AppV17` has a function call from another method. Note these methods are not (yet classes), because I was not (yet) able to call a method/function from another class from another file. The example call is performed from file `test.js` at the top of `AppV17.js`. Now the `FormatChecks`,`ModifyDropdowns` and `getUniversities` to `getCourses` methods can be modified and put into another file.
+18. `AppV18` contains the functionalities of FormatChecks, PutDataInDb sperated into files and cleaned commented code.
+19. `AppV19` contains the first attemt to populate the dropdownboxes with university data.

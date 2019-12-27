@@ -14,6 +14,7 @@ module.exports = {
   // This transforms the data object property temperature into an array!
     // Source: https://medium.com/poka-techblog/simplify-your-javascript-use-map-reduce-and-filter-bd02c593cc2d
     getArrayOfOneElementType: function(data) {
+		//alert(data)
         var officersIds = [];
         data.forEach(function (data) {officersIds.push(data.temperature);})   
         console.log(officersIds[2]);
@@ -39,7 +40,7 @@ module.exports = {
     },
 	
 
-	sayHello: function(arr) {	
+	fillDropdownWithArr: function(arr) {	
 		var inputElemAdd = document.getElementsByTagName('select');
         var selectBox = document.getElementById("dynamic-select");        
 		var i
@@ -56,6 +57,7 @@ module.exports = {
 	
 	// Filter undefined values from an array
 	filterUndefineds: function(arr){
+		alert("incomming arr="+arr)
 		var i
 		var newArr = [];
 		
