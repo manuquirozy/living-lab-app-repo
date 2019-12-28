@@ -116,6 +116,18 @@ module.exports = {
 		}
 	},
 	
+	// refreshes a specific dropdownbox
+	getSelectedDropdownValues: function(collectionName,state) {	
+		var i	
+		
+		// define the element id of the respective dropdownbox and get the dropdownbox
+		var elementId = collectionName+"_dd"
+		var selectBox = document.getElementById(elementId);
+		alert(selectBox.options[selectBox.selectedIndex].label)
+		var result = selectBox.options[selectBox.selectedIndex].value;
+		result 
+	},
+	
 	// Filter undefined values from an array
 	filterUndefineds: function(arr){
 		var i
@@ -128,7 +140,11 @@ module.exports = {
 			}
 		}
 		return newArr;
+	},
+	
+	// Example method that displays a number as plain text on website
+	displayTextInHtml: function() {
+		var number = "123";
+		return number;
 	}
-	
-	
 };

@@ -37,8 +37,10 @@ module.exports = {
 		if (!this.isNewEntryInDb(message,collectionName,state)){return false;}
 		
 		// Verify whether user selected correct university
-		if (!this.askIfSelectedRightDropdowns("Did you select the correct dropdownboxes?")){return false;}
-		
+		if (collectionName !="universities"){
+			var question = this.generateQuestionCorrectDropdowns(message,collectionName);
+			if (!this.askIfSelectedRightDropdowns("Did you select the correct dropdownboxes?")){return false;}
+		}
 		return true;
 	},
 
@@ -153,5 +155,36 @@ module.exports = {
 			alert("please select the correct dropdownboxes and click on add again.")
 			return false;
 		}
+	},
+	
+	generateQuestionCorrectDropdowns: function(input,collectionName){
+		switch(collectionName) {
+			case "universities":
+				//universities don't need any pre-set dropdownboxes
+				break;
+			case "faculties":
+				return "Is "+input+" a faculty of:"+"uniDropdownValue"+"?";
+				break;
+			case "bachelors":
+				return null;
+				break;
+			case "masters":
+				return null;
+				break;
+			case "courses":
+				return null;
+				break;
+		}
+	},
+	
+	getDropdownValue: function(){
+		//alert("called")
+		var e = document.getElementById("universities_dd");
+		//alert("e="+e)
+		if ((e != null) && (e.options[e.selectedIndex] !=undefined)){
+			//alert(e.options[e.selectedIndex].value)
+			return e.options[e.selectedIndex].value;
+		}
+		
 	}
 };

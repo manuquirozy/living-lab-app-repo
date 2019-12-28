@@ -3,6 +3,9 @@ import './App.css';
 import axios from 'axios';
 
 var storeArray;
+var strUser;
+var createdTextNode = false; // boolean to only create text node once.
+var addTextNode = true;
 
 // construct class to perform miscalleneous dropdown box modifications
 var ModifyDropdowns = require('./ModifyDropdownsV0');
@@ -137,9 +140,34 @@ class App extends Component {
 	getCourses= () => {
         fetch('http://localhost:3001/api/getCourses')
                 .then((data) => data.json())
-                .then((res) => this.setState({ courses: res.data })); 
+                .then((res) => this.setState({ courses: res.data })); 		
     };
+
+	// Create a variable text node inside the html
+	//Source:
+	createTextNode() {
+		if (!createdTextNode) {
+			var t = document.createTextNode("Hello World");
+			t.id= "textElement"
+			alert("t.id="+t.id)
+			document.body.appendChild(t);
+			
+			t.value = "TUTORIX";
+			//document.getElementById("textElement").innerHTML = "Tutorix";
+			//document.getElementById("element").innerHTML = "Tutorix";
+			createdTextNode=true;
+		}
+	};
 	
+	addTextNode(addTextNode) {
+		alert(addTextNode)
+		if (!addTextNode) {
+            var textContainer = document.getElementById ("textContainer");
+            var textNode = textContainer.firstChild;
+            alert (textNode.data);
+		}
+		addTextNode = true;
+	};
 	
 // This is what generates the design/html of the webpage with JSX
   render() {
@@ -291,6 +319,31 @@ class App extends Component {
             Add your course
           </button>
         </div>
+		
+		strUser = {FormatChecks.getDropdownValue()}
+		<br></br>
+		document.getElementById("universities_dd");
+		<br></br>
+		
+		
+		<br></br>
+		{/*{document.getElementById("textElement").innerHTML = ModifyDropdowns.displayTextInHtml()}*/}
+		{/*"The value for number is: " <span id="textElement"></span>*/}
+
+		<br></br>
+		{/*<div id="textElement"></div>
+		<div id="element"></div>
+		<p id="elementA">GetElementById</p>
+		{this.createTextNode()}*/}
+		
+		<br></br>
+		{/*<p id="elementA">{document.getElementById("universities_dd").value}</p>*/}
+		
+		<br></br>
+		<button onClick={() => ModifyDropdowns.getSelectedDropdownValues("universities",this.state)}>
+            Show the current value of the Uni dropdown box
+        </button>
+		
       </div>
     );
   }
