@@ -144,5 +144,30 @@ module.exports = {
 	displayTextInHtml: function() {
 		var number = "123";
 		return number;
+	},
+	
+	// Get the database id of the university element
+	findUniversitiyId: function(){
+		return null;
+	},
+	
+	// Get the database id of the faculty element
+	findFacultiyId: function(){
+		return null;
+	},
+	
+	// Get the database id of the master element
+	findMasterId: function(){
+		return null;
+	},
+	
+	// Get the database id of the bachelor element
+	findBachelorId: function(){
+		return null;
+	},
+	
+	// Get the database id of the course element
+	findCourseId: function(){
+		return null;
 	}
 };

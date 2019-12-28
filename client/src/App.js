@@ -144,7 +144,6 @@ class App extends Component {
     };
 
 	// Create a variable text node inside the html
-	//Source:
 	createTextNode() {
 		if (!createdTextNode) {
 			var t = document.createTextNode("Hello World");
@@ -159,6 +158,7 @@ class App extends Component {
 		}
 	};
 	
+	// Add a text node in the plain html site.
 	addTextNode(addTextNode) {
 		alert(addTextNode)
 		if (!addTextNode) {
@@ -319,26 +319,7 @@ class App extends Component {
             Add your course
           </button>
         </div>
-		
-		strUser = {FormatChecks.getDropdownValue()}
-		<br></br>
-		document.getElementById("universities_dd");
-		<br></br>
-		
-		
-		<br></br>
-		{/*{document.getElementById("textElement").innerHTML = ModifyDropdowns.displayTextInHtml()}*/}
-		{/*"The value for number is: " <span id="textElement"></span>*/}
-
-		<br></br>
-		{/*<div id="textElement"></div>
-		<div id="element"></div>
-		<p id="elementA">GetElementById</p>
-		{this.createTextNode()}*/}
-		
-		<br></br>
-		{/*<p id="elementA">{document.getElementById("universities_dd").value}</p>*/}
-		
+			
 		<br></br>
 		<button onClick={() => ModifyDropdowns.getSelectedDropdownValues("universities")}>
             Show the current value of the Uni dropdown box
