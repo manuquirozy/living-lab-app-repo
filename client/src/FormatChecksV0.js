@@ -74,7 +74,6 @@ module.exports = {
 			switch(collectionName) {
 				case "universities":
 					const { universities } = state
-					alert("Returning a false value:"+!this.checkIfInArr(input,universities))
 					return !this.checkIfInArr(input,universities);
 					break;
 				case "faculties":

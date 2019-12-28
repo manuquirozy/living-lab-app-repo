@@ -212,7 +212,7 @@ class App extends Component {
 		<select id="courses_dd">
 			{/*<option value="1">one</option>*/}
         </select>
-		
+		{ModifyDropdowns.populateDropdowns(this.state)}
 		
 		<br></br> 		
 		{/*Add an element to the dropdownbox (must include function "addOptionToDropdown" above html in this App.js to make it work)*/}

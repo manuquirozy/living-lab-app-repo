@@ -55,6 +55,15 @@ module.exports = {
 		}
 	},
 	
+	// fill all dropdown boxes upon loading the page
+	populateDropdowns(state){
+		this.refreshDropdown("universities",state); 
+		this.refreshDropdown("faculties",state); 
+		this.refreshDropdown("bachelors",state); 
+		this.refreshDropdown("masters",state); 
+		this.refreshDropdown("courses",state);
+	},
+	
 	// refreshes a specific dropdownbox
 	refreshDropdown: function(collectionName,state) {	
 		var i
@@ -62,19 +71,21 @@ module.exports = {
 		// get the updated array from db
 		var arr = this.getUpdatedArr(collectionName,state)
 		
-		// define the element id of the respective dropdownbox and get the dropdownbox
-		var elementId = collectionName+"_dd"
-        var selectBox = document.getElementById(elementId);        
-		
-		// filter the undefined values from the array
-		var newArr = this.filterUndefineds(arr);
-		
-		// set length of dropdownbox to incomming array
-		selectBox.length = newArr.length;
-		
-		// assign arrays
-		for (i = 0; i < newArr.length; i++) {
-			selectBox[i].label = newArr[i];
+		if (arr.length>0){
+			// define the element id of the respective dropdownbox and get the dropdownbox
+			var elementId = collectionName+"_dd"
+			var selectBox = document.getElementById(elementId);        
+			
+			// filter the undefined values from the array
+			var newArr = this.filterUndefineds(arr);
+			
+			// set length of dropdownbox to incomming array
+			selectBox.length = newArr.length;
+			
+			// assign arrays
+			for (i = 0; i < newArr.length; i++) {
+				selectBox[i].label = newArr[i];
+			}
 		}
 	},
 	
@@ -107,7 +118,6 @@ module.exports = {
 	
 	// Filter undefined values from an array
 	filterUndefineds: function(arr){
-		alert("incomming arr="+arr)
 		var i
 		var newArr = [];
 		
