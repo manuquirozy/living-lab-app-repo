@@ -30,6 +30,7 @@ npm install
 npm install react-scripts
 (Make sure you don't have any of the client files opened in notepad/netbeans when you do this)
 then npm start then visit:http://localhost:3000/
+(modify the `startupMongoDb.bat` to point to your own directory that contains `mongod.exe`.)
 
 # Understanding: client: 
 0. The `AppV2.js` connects to the MongoDB database named `fullstack_app` as specified in line 13 of `/backend/server.js/` containing:

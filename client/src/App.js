@@ -191,36 +191,32 @@ class App extends Component {
 		{/*arrayOfTemp = {ModifyDropdowns.getArrayOfOneElementType(universities)}*/}
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
-		<br></br>
-		singleelement = {ModifyDropdowns.getSingleEntry(universities)}
-		
-		
-		{/* Passing an array within the html (declare variable storeArray at top of script, use <script> to hide the output))*/}
-		{/*<br></br> 
-	<script>
-		storeArray = {ModifyDropdowns.getArrayOfOneElementType(universities)}
-	</script>
-		*/}
-		
-		StoredArray={storeArray}
-		<br></br>
-		
-		{/*StoredArrayThree={ModifyDropdowns.getArrayOfOneElementTypegetArrayOfOneElementType(universities)}*/}
-		StoredArrayThree={universities.map((dat) => ModifyDropdowns.getArrayOfOneElementType(universities))}
+		{/*singleelement = {ModifyDropdowns.getSingleEntry(universities)}*/}
 		
 		
 		<br></br> 
 		{/*Dropdownbox*/}
 		{/*Source: https://memorynotfound.com/dynamically-add-remove-options-select-javascript<br></br>*/}
-        <select id="faculties_dd">
-                <option value="1">one</option>
-                <option value="2">two</option>
-                <option value="3">three</option>
+        <select id="universities_dd">
+			{/*<option value="1">one</option>*/}
         </select>
+		<select id="faculties_dd">
+			{/*<option value="1">one</option>*/}
+        </select>
+		<select id="bachelors_dd">
+			{/*<option value="1">one</option>*/}
+        </select>
+		<select id="masters_dd">
+			{/*<option value="1">one</option>*/}
+        </select>
+		<select id="courses_dd">
+			{/*<option value="1">one</option>*/}
+        </select>
+		
 		
 		<br></br> 		
 		{/*Add an element to the dropdownbox (must include function "addOptionToDropdown" above html in this App.js to make it work)*/}
-		<button onClick={ModifyDropdowns.addOptionToDropdown}>add item</button> {/*// remove the brackets to make it happen at onclick*/}
+		{/*<button onClick={ModifyDropdowns.addOptionToDropdown}>add item</button>  remove the brackets to make it happen at onclick*/}
      		
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
@@ -229,8 +225,8 @@ class App extends Component {
 			
 		<br></br>
 	
-		// textbox with button to add your university
-		<div style={{ padding: '10px' }}>
+		{/* textbox with button to add your university*/}
+		<div style={{ padding: '0px' }}>
           <input
             type="text"
             onChange={(e) => this.setState({ message: e.target.value })}
@@ -244,8 +240,8 @@ class App extends Component {
           </button>
         </div>
 
-		// textbox with button to add your faculty
-		<div style={{ padding: '10px' }}>
+		{/* textbox with button to add your faculty*/}
+		<div style={{ padding: '0px' }}>
           <input
             type="text"
             onChange={(e) => this.setState({ message: e.target.value })}
@@ -257,8 +253,8 @@ class App extends Component {
           </button>
         </div>
 
-		// textbox with button to add your bachelor
-		<div style={{ padding: '10px' }}>
+		{/* textbox with button to add your bachelor*/}
+		<div style={{ padding: '0px' }}>
           <input
             type="text"
             onChange={(e) => this.setState({ message: e.target.value })}
@@ -270,8 +266,8 @@ class App extends Component {
           </button>
         </div>
 
-		// textbox with button to add your master
-		<div style={{ padding: '10px' }}>
+		{/* textbox with button to add your master*/}
+		<div style={{ padding: '0px' }}>
           <input
             type="text"
             onChange={(e) => this.setState({ message: e.target.value })}
@@ -283,8 +279,8 @@ class App extends Component {
           </button>
         </div>
 
-		// textbox with button to add your course
-		<div style={{ padding: '10px' }}>
+		{/* textbox with button to add your course*/}
+		<div style={{ padding: '0px' }}>
           <input
             type="text"
             onChange={(e) => this.setState({ message: e.target.value })}
@@ -295,20 +291,6 @@ class App extends Component {
             Add your course
           </button>
         </div>
-		
-		// textbox with button to add your Original
-		<div style={{ padding: '10px' }}>
-          <input
-            type="text"
-            onChange={(e) => this.setState({ message: e.target.value })}
-            placeholder="add something in the database"
-            style={{ width: '200px' }}
-          />
-          <button onClick={() => this.putDataToDbOriginal(this.state.message,"universities")}>
-            Add your original Uni
-          </button>
-        </div>
-
       </div>
     );
   }
