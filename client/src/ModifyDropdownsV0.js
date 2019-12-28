@@ -117,15 +117,13 @@ module.exports = {
 	},
 	
 	// refreshes a specific dropdownbox
-	getSelectedDropdownValues: function(collectionName,state) {	
-		var i	
-		
+	getSelectedDropdownValues: function(collectionName) {
 		// define the element id of the respective dropdownbox and get the dropdownbox
 		var elementId = collectionName+"_dd"
 		var selectBox = document.getElementById(elementId);
-		alert(selectBox.options[selectBox.selectedIndex].label)
-		var result = selectBox.options[selectBox.selectedIndex].value;
-		result 
+		//alert("Selectbox label ="+selectBox.options[selectBox.selectedIndex].label)
+		var result = selectBox.options[selectBox.selectedIndex].label;
+		return result;
 	},
 	
 	// Filter undefined values from an array

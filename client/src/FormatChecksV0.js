@@ -11,7 +11,7 @@ module.exports = {
 	alert("hello world")
   },
 	// Main method of class that coordinates the checks that are executed.
-	correctInputFomat: function (message,collectionName,state){
+	correctInputFomat: function (message,collectionName,state,ModifyDropdowns){
 		if (!this.isTooLong(message)){
 			alert("Please enter something shorter than 200 characters.");
 			return false;
@@ -38,8 +38,8 @@ module.exports = {
 		
 		// Verify whether user selected correct university
 		if (collectionName !="universities"){
-			var question = this.generateQuestionCorrectDropdowns(message,collectionName);
-			if (!this.askIfSelectedRightDropdowns("Did you select the correct dropdownboxes?")){return false;}
+			var question = this.generateQuestionCorrectDropdowns(message,collectionName,ModifyDropdowns);
+			if (!this.askIfSelectedRightDropdowns(question)){return false;}
 		}
 		return true;
 	},
@@ -76,6 +76,7 @@ module.exports = {
 	  return true;
 	},
 	
+	// Check whether the entry is already in the database
 	isNewEntryInDb: function(input,collectionName,state){
 			switch(collectionName) {
 				case "universities":
@@ -146,37 +147,68 @@ module.exports = {
 		return false;
 	},
 	
+	// Decide whether to save the value or ask the user to select the correct dropdowns and not-save
 	askIfSelectedRightDropdowns: function(question){
 		if (window.confirm(question)) {
-			// Save it!
+			// proceed and store the user input in db
 			return true;
 		} else {
-			// Do nothing!
-			alert("please select the correct dropdownboxes and click on add again.")
+			// wait untill user has selected correct dropdown entries.
 			return false;
 		}
 	},
 	
-	generateQuestionCorrectDropdowns: function(input,collectionName){
+	// Ask whether the user selected the correct dropdownboxes before adding a new entry to the db.
+	generateQuestionCorrectDropdowns: function(input,collectionName,ModifyDropdowns){
 		switch(collectionName) {
 			case "universities":
 				//universities don't need any pre-set dropdownboxes
 				break;
 			case "faculties":
-				return "Is "+input+" a faculty of:"+"uniDropdownValue"+"?";
+				return "Is "+input+" a faculty of:"+ModifyDropdowns.getSelectedDropdownValues("universities")+"? \n \n If not, please press CANCEL select the correct university in the universities-dropdownbox, and then click Add your faculty, again.";
 				break;
 			case "bachelors":
-				return null;
+				var q1 ="Is "+input+" a bachelor of:"+ModifyDropdowns.getSelectedDropdownValues("faculties")+"? \n "
+				var q2 ="And is:"+ModifyDropdowns.getSelectedDropdownValues("faculties")+" a faculty of: "+ModifyDropdowns.getSelectedDropdownValues("universities")+"?\n "
+				var q3 ="\n If not, please press CANCEL select the correct university and faculty in the respective dropdownboxes, and then click Add your bachelors, again.";
+				return q1+q2+q3;
 				break;
 			case "masters":
-				return null;
+				var q1 ="Is "+input+" a master of:"+ModifyDropdowns.getSelectedDropdownValues("faculties")+"? \n "
+				var q2 ="And is:"+ModifyDropdowns.getSelectedDropdownValues("faculties")+" a faculty of: "+ModifyDropdowns.getSelectedDropdownValues("universities")+"?\n "
+				var q3 ="\n If not, please press CANCEL select the correct university and faculty in the respective dropdownboxes, and then click Add your masters, again.";
+				return q1+q2+q3;
 				break;
 			case "courses":
-				return null;
+				var bachelorsOrMasters = this.askBachelorOrMaster(input);
+				if (bachelorsOrMasters==="bachelors"){
+					var q1 ="Is "+input+" a bachelors course of the bachelor:"+ModifyDropdowns.getSelectedDropdownValues("bachelors")+"?\n"
+					var q2 ="AND is:"+ModifyDropdowns.getSelectedDropdownValues("bachelors")+" a bacheler of faculty: "+ModifyDropdowns.getSelectedDropdownValues("faculties")+"?\n"
+				}else if (bachelorsOrMasters==="masters"){
+					var q1 ="Is "+input+" a masters course of the master:"+ModifyDropdowns.getSelectedDropdownValues("masters")+"?\n"
+					var q2 ="AND is:"+ModifyDropdowns.getSelectedDropdownValues("masters")+" a master of faculty: "+ModifyDropdowns.getSelectedDropdownValues("faculties")+"?\n"
+				}
+				var q3 ="AND is:"+ModifyDropdowns.getSelectedDropdownValues("faculties")+" a faculty of: "+ModifyDropdowns.getSelectedDropdownValues("universities")+"?\n"
+				var q4 ="If not, please press CANCEL and select the correct: "+"-university,"+"-faculty"+",-(bachelor or master) in the respective dropdownboxes, and then re-click Add your course.";
+				return q1+q2+q3+q4;
 				break;
 		}
 	},
 	
+	// Ask whether the course is a bachelors or masters course
+	askBachelorOrMaster: function(input){
+		do {
+			var courseCategory = prompt("Please type bachelors, if "+input+" is a bachelors course, and type masters, if it is a masters course.");
+			if (courseCategory==="bachelors") {
+				return "bachelors"
+			}else if (courseCategory==="masters") {
+					return "masters";
+				}
+			}
+		while (0 < 1);
+	},
+	
+	// Get the dropdownbox
 	getDropdownValue: function(){
 		//alert("called")
 		var e = document.getElementById("universities_dd");
@@ -185,6 +217,5 @@ module.exports = {
 			//alert(e.options[e.selectedIndex].value)
 			return e.options[e.selectedIndex].value;
 		}
-		
 	}
 };

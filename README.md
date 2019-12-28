@@ -90,3 +90,4 @@ To export db, see instructions at: https://docs.mongodb.com/manual/reference/pro
 ```
 21. `AppV21` Implemented an automatic update in ModifyDropdownsV0 of the dropdownbox to which an entry has been added.
 22. `AppV22` Read the current value from the dropdownbox with `selectBox.options[selectBox.selectedIndex].label` in `ModifyDropdownsV0`. 
+23. `AppV23` Has the verification question implemented that asks the user whether the dropdownboxes are matching the new faculty/masters/bachelors/course.
