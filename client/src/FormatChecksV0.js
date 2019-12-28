@@ -35,6 +35,10 @@ module.exports = {
 
 		// check whether the message is not already in the array.		
 		if (!this.isNewEntryInDb(message,collectionName,state)){return false;}
+		
+		// Verify whether user selected correct university
+		if (!this.askIfSelectedRightDropdowns("Did you select the correct dropdownboxes?")){return false;}
+		
 		return true;
 	},
 
@@ -138,5 +142,16 @@ module.exports = {
 				break;
 		}
 		return false;
+	},
+	
+	askIfSelectedRightDropdowns: function(question){
+		if (window.confirm(question)) {
+			// Save it!
+			return true;
+		} else {
+			// Do nothing!
+			alert("please select the correct dropdownboxes and click on add again.")
+			return false;
+		}
 	}
 };
