@@ -87,3 +87,4 @@ To export db, see instructions at: https://docs.mongodb.com/manual/reference/pro
 ```
 <button onClick={() => ModifyDropdowns.fillDropdownWithArr(faculties.map((dat) => dat.name))}>Greet</button>	
 ```
+21. `AppV21` Implemented an automatic update in ModifyDropdownsV0 of the dropdownbox to which an entry has been added.

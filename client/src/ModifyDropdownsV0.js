@@ -33,16 +33,16 @@ module.exports = {
 	// This function adds an option to the dropdownbox.
 	addOptionToDropdown: function(){
         var inputElemAdd = document.getElementsByTagName('select');
-        var selectBox = document.getElementById("dynamic-select");        
+        var selectBox = document.getElementById("faculties_dd");        
         selectBox[0].label = "Wrote 0";
         selectBox[2].label = "Wrote 2";
         selectBox[3] = new Option('hi, added last label', 'id0',false,false); // add option
     },
 	
 
+	// Fills a dropdownbox with a specifici array.
 	fillDropdownWithArr: function(arr) {	
-		var inputElemAdd = document.getElementsByTagName('select');
-        var selectBox = document.getElementById("dynamic-select");        
+        var selectBox = document.getElementById("faculties_dd");        
 		var i
 		var newArr = this.filterUndefineds(arr);
 		
@@ -52,6 +52,56 @@ module.exports = {
 		// assign arrays
 		for (i = 0; i < newArr.length; i++) {
 			selectBox[i].label = newArr[i];
+		}
+	},
+	
+	// refreshes a specific dropdownbox
+	refreshDropdown: function(collectionName,state) {	
+		var i
+		
+		// get the updated array from db
+		var arr = this.getUpdatedArr(collectionName,state)
+		
+		// define the element id of the respective dropdownbox and get the dropdownbox
+		var elementId = collectionName+"_dd"
+        var selectBox = document.getElementById(elementId);        
+		
+		// filter the undefined values from the array
+		var newArr = this.filterUndefineds(arr);
+		
+		// set length of dropdownbox to incomming array
+		selectBox.length = newArr.length;
+		
+		// assign arrays
+		for (i = 0; i < newArr.length; i++) {
+			selectBox[i].label = newArr[i];
+		}
+	},
+	
+	// This gets the updated arrays from the database
+	getUpdatedArr(collectionName,state){
+		const { universities } = state;
+		const { faculties } = state;
+		const { bachelors } = state;
+		const { masters } = state;
+		const { courses } = state;
+		
+		switch(collectionName) {
+			case "universities":
+				return universities.map((dat) => dat.name);
+				break;
+			case "faculties":
+				return faculties.map((dat) => dat.name);
+				break;
+			case "bachelors":
+				return bachelors.map((dat) => dat.name);
+				break;
+			case "masters":
+				return masters.map((dat) => dat.name);
+				break;
+			case "courses":
+				return courses.map((dat) => dat.name);
+				break;
 		}
 	},
 	

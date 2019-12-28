@@ -28,13 +28,13 @@ module.exports = {
 		}		
 		
 		// Ensure the number of entries is limited
-		if (!this.limitNrOfEntries(message,collectionName,state)){
-			alert("Please enter an alphanumeric statement.");
+		if (this.limitNrOfEntries(message,collectionName,state)){
+			alert("My appologies, there are already a 1000 entries, to prevent overflow I put a limit on here, please send me a mail to increase it.");
 			return false;
 		}
 
 		// check whether the message is not already in the array.		
-		if (this.isNewEntryInDb(message,collectionName,state)){return false;}
+		if (!this.isNewEntryInDb(message,collectionName,state)){return false;}
 		return true;
 	},
 
@@ -74,6 +74,7 @@ module.exports = {
 			switch(collectionName) {
 				case "universities":
 					const { universities } = state
+					alert("Returning a false value:"+!this.checkIfInArr(input,universities))
 					return !this.checkIfInArr(input,universities);
 					break;
 				case "faculties":
@@ -103,7 +104,6 @@ module.exports = {
 		var i;
 		// only copy the non-undefined values from incoming array to newArr
 		for (i = 0; i < arr.length; i++) {
-			alert(arr[i].name)
 			if (arr[i].name == str) {
 				alert("Please look at the dropdownboxes with more attention to detail, your entry already exists.")
 				return true;
@@ -118,26 +118,26 @@ module.exports = {
 		switch(collectionName) {
 			case "universities":
 				const { universities } = state
-				if (universities.length >1000){return false}
+				if (universities.length >1000){return true}
 				break;
 			case "faculties":
 				const { faculties } = state
-				if (faculties.length >1000){return false}
+				if (faculties.length >1000){return true}
 				break;
 				break;
 			case "bachelors":
 				const { bachelors } = state
-				if (bachelors.length >1000){return false}
+				if (bachelors.length >1000){return true}
 				break;
 			case "masters":
 				const { masters } = state
-				if (masters.length >1000){return false}
-				
+				if (masters.length >1000){return true}
 				break;
 			case "courses":
 				const { courses } = state
-				if (courses.length >1000){return false}
+				if (courses.length >1000){return true}
 				break;
 		}
+		return false;
 	}
 };
