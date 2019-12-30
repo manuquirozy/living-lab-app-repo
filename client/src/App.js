@@ -6,7 +6,7 @@ var storeArray;
 var strUser;
 var createdTextNode = false; // boolean to only create text node once.
 var addTextNode = true;
-var facultiesEntries = ["a","b"];
+var facultiesEntries = [];
 
 // construct class to perform miscalleneous dropdown box modifications
 var ModifyDropdowns = require('./ModifyDropdownsV0');
@@ -20,6 +20,8 @@ var FormatChecks = require('./FormatChecksV0');
 
 // construct class to create many-to-many relations by adding Id's	
 var ManyToManyDbMain = require('./ManyToManyDbMain');
+	
+
 	
 // Put data into database
 //var PutDataInDb = require('./PutDataInDb');
@@ -38,11 +40,27 @@ class App extends Component {
         idToUpdate: null,
         objectToUpdate: null,
     };
+	
+	 
 
+	getState(){
+		alert("returning state:"+this.state)
+		return this.state;
+	}
+	
 	// Method that calls the methods that get the database collections every <orange nr> ms
     componentDidMount() {
 		
 		//************************************Periodically call methods that get data from db*******************
+		
+		//this.throwAlert(this.facultiesEntries);
+		this.throwAlert(this.facultiesEntries,this.state);
+		//this.throwAlert(this.facultiesEntries,this.state);
+        //if (!this.state.intervalIsSet) {
+            let interval = setInterval(() => this.throwAlert(), 5000);
+            //this.setState({ intervalIsSet: interval });
+        //}
+		
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
@@ -54,12 +72,6 @@ class App extends Component {
         if (!this.state.intervalIsSet) {
             let interval = setInterval(this.getFaculties, 10000);
             this.setState({ intervalIsSet: interval });
-        }
-		
-		this.throwAlert(this.facultiesEntries);
-        if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.throwAlert, 10000);
-            //this.setState({ intervalIsSet: interval });
         }
 		
 		this.getBachelors();
@@ -81,8 +93,14 @@ class App extends Component {
         }
     }
     
-	throwAlert(test){
-		alert("without"+facultiesEntries)
+	throwAlert(array,state){
+		if (facultiesEntries.length > 0){
+			alert("Content="+facultiesEntries)
+			ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)
+			alert("periodic state stringify="+JSON.stringify(this.state))
+		}
+		alert("without"+facultiesEntries 	)
+		alert("State"+this.state)
 	}
 	
 	// Unkown what this does
@@ -131,20 +149,14 @@ class App extends Component {
 			this.getFaculties() // try to update state to get id after post
 			this.setState(this.state); // try to update state to get id after post
 			alert(JSON.stringify(this.state)) // the newly added faculty is in but in the collection yet, but as a separate end message
-			alert("Inside="+this.facultiesEntries)
-			alert("Inside WITHOUT="+facultiesEntries)
 			facultiesEntries.push(message)
 		}
 		return facultiesEntries;
 	};
 
-		
-		
-		
-
 	//***********************************************************Get data from db*******************
 	// read the mongodb collection universities in database "education"
-		getUniversities = () => {
+	getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
                 .then((data) => data.json())
                 .then((res) => this.setState({ universities: res.data }));
@@ -236,7 +248,6 @@ class App extends Component {
           </tbody>   
         </table>
 		
-		
 		<br></br>
 		{/*This folds the data into a data temperature array*/}
 		dat.universityName={universities.map((dat) => dat.name)}
@@ -255,7 +266,6 @@ class App extends Component {
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		{/*singleelement = {ModifyDropdowns.getSingleEntry(universities)}*/}
-		
 		
 		<br></br> 
 		{/*Dropdownbox*/}
@@ -311,7 +321,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => {this.putDataToDB(this.state.message,"faculties"); ManyToManyDbMain.Main(this.state.message,"faculties",this.state)}}>
+          <button onClick={() => {this.putDataToDB(this.state.message,"faculties"),this.state}}>
             Add your faculty
           </button>
         </div>
