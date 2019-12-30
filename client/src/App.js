@@ -7,6 +7,7 @@ var strUser;
 var createdTextNode = false; // boolean to only create text node once.
 var addTextNode = true;
 
+
 // construct class to perform miscalleneous dropdown box modifications
 var ModifyDropdowns = require('./ModifyDropdownsV0');
 
@@ -54,6 +55,12 @@ class App extends Component {
             this.setState({ intervalIsSet: interval });
         }
 		
+		this.throwAlert();
+        if (!this.state.intervalIsSet) {
+            let interval = setInterval(this.throwAlert, 10000);
+            this.setState({ intervalIsSet: interval });
+        }
+		
 		this.getBachelors();
         if (!this.state.intervalIsSet) {
             let interval = setInterval(this.getBachelors, 10000);
@@ -73,6 +80,10 @@ class App extends Component {
         }
     }
     
+	throwAlert(){
+		alert("hi you can interval 2 functions.")
+	}
+	
 	// Unkown what this does
     componentWillUnmount() {
         if (this.state.intervalIsSet) {
