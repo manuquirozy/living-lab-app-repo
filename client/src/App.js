@@ -6,10 +6,11 @@ var storeArray;
 var strUser;
 var createdTextNode = false; // boolean to only create text node once.
 var addTextNode = true;
-
+var facultiesEntries = ["a","b"];
 
 // construct class to perform miscalleneous dropdown box modifications
 var ModifyDropdowns = require('./ModifyDropdownsV0');
+
 
 //Create class that contains the actual get methods
 //const this = require('./this')();
@@ -55,10 +56,10 @@ class App extends Component {
             this.setState({ intervalIsSet: interval });
         }
 		
-		this.throwAlert();
+		this.throwAlert(this.facultiesEntries);
         if (!this.state.intervalIsSet) {
             let interval = setInterval(this.throwAlert, 10000);
-            this.setState({ intervalIsSet: interval });
+            //this.setState({ intervalIsSet: interval });
         }
 		
 		this.getBachelors();
@@ -80,8 +81,8 @@ class App extends Component {
         }
     }
     
-	throwAlert(){
-		alert("hi you can interval 2 functions.")
+	throwAlert(test){
+		alert("without"+facultiesEntries)
 	}
 	
 	// Unkown what this does
@@ -115,9 +116,6 @@ class App extends Component {
 							alert("response stringify="+JSON.stringify(response))
 							this.setState({faculties});
 						  }) 
-				
-					this.forceUpdate(); // try to update state to get id after post
-					
 					break;
 				case "bachelors":
 					axios.post('http://localhost:3001/api/putBachelor', {name: message});
@@ -133,9 +131,12 @@ class App extends Component {
 			this.getFaculties() // try to update state to get id after post
 			this.setState(this.state); // try to update state to get id after post
 			alert(JSON.stringify(this.state)) // the newly added faculty is in but in the collection yet, but as a separate end message
-			ManyToManyDbMain.Main(message,collectionName,this.state) // implement many to many relationships in db
+			alert("Inside="+this.facultiesEntries)
+			alert("Inside WITHOUT="+facultiesEntries)
+			facultiesEntries.push(message)
 		}
-    };
+		return facultiesEntries;
+	};
 
 		
 		
@@ -283,7 +284,7 @@ class App extends Component {
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
 		{/*<button onClick={() => ModifyDropdowns.fillDropdownWithArr('James')}>Greet</button>*/}
-		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(faculties.map((dat) => dat.name))}>Fill dropdownbox with faculties</button>	
+		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(faculties.map((dat) => dat.name))}>Fill dropdownbox with faculties</button>
 			
 		<br></br>
 	
