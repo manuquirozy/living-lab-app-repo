@@ -53,13 +53,10 @@ class App extends Component {
 		
 		//************************************Periodically call methods that get data from db*******************
 		
-		//this.throwAlert(this.facultiesEntries);
+		// check whether there are any new additions in the db
 		this.throwAlert(this.facultiesEntries,this.state);
-		//this.throwAlert(this.facultiesEntries,this.state);
-        //if (!this.state.intervalIsSet) {
             let interval = setInterval(() => this.throwAlert(), 5000);
-            //this.setState({ intervalIsSet: interval });
-        //}
+            
 		
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
@@ -93,6 +90,9 @@ class App extends Component {
         }
     }
     
+	// check if they are in the state already, if they are,
+	// pass the state with the entry to ManyToManyDbMain to 
+	// get the id of the new entry to create the ManyToMany relations
 	throwAlert(array,state){
 		if (facultiesEntries.length > 0){
 			alert("Content="+facultiesEntries)
