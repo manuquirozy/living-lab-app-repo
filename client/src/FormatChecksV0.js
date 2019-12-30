@@ -34,7 +34,8 @@ module.exports = {
 		}
 
 		// check whether the message is not already in the array.		
-		if (!this.isNewEntryInDb(message,collectionName,state)){return false;}
+		// TODO: Include collectionName to ManyToManyMain
+		if (!this.isNewEntryInDb(message,state)){return false;}
 		
 		// Verify whether user selected correct university
 		if (collectionName !="universities"){

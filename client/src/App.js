@@ -16,6 +16,9 @@ var ModifyDropdowns = require('./ModifyDropdownsV0');
 // construct class to check if input satisfies input requirements
 var FormatChecks = require('./FormatChecksV0');
 
+// construct class to create many-to-many relations by adding Id's	
+var ManyToManyDbMain = require('./ManyToManyDbMain');
+	
 // Put data into database
 //var PutDataInDb = require('./PutDataInDb');
 
@@ -41,31 +44,31 @@ class App extends Component {
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getUniversities, 1000);
+            let interval = setInterval(this.getUniversities, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getFaculties();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 1000);
+            let interval = setInterval(this.getFaculties, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getBachelors();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getBachelors, 1000);
+            let interval = setInterval(this.getBachelors, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getMasters();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getMasters, 1000);
+            let interval = setInterval(this.getMasters, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getCourses();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getCourses, 1000);
+            let interval = setInterval(this.getCourses, 10000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -80,6 +83,7 @@ class App extends Component {
 	
 	//***********************************************************Put data in db*******************
 	putDataToDB = (message,collectionName) => {
+		const { faculties } = this.state;
 		var ModifyDropdowns = require('./ModifyDropdownsV0');
 		//var FormatChecks = new FormatChecks();
 		
@@ -90,7 +94,19 @@ class App extends Component {
 					axios.post('http://localhost:3001/api/putUniversity', {name: message});
 					break;
 				case "faculties":
-					axios.post('http://localhost:3001/api/putFaculty', {name: message});
+					this.forceUpdate(); // try to update state to get id after post
+					this.getFaculties() // try to update state to get id after post
+					this.setState(this.state); // try to update state to get id after post
+					axios.post('http://localhost:3001/api/putFaculty', {name: message})
+						  .then(response => {
+							const {faculties} = this.state;
+							alert("response.data="+response.data)
+							alert("response stringify="+JSON.stringify(response))
+							this.setState({faculties});
+						  }) 
+				
+					this.forceUpdate(); // try to update state to get id after post
+					
 					break;
 				case "bachelors":
 					axios.post('http://localhost:3001/api/putBachelor', {name: message});
@@ -102,26 +118,33 @@ class App extends Component {
 					axios.post('http://localhost:3001/api/putCourse', {name: message});
 					break;
 			}
-			ModifyDropdowns.refreshDropdown(collectionName, this.state)
+			this.forceUpdate(); // try to update state to get id after post
+			this.getFaculties() // try to update state to get id after post
+			this.setState(this.state); // try to update state to get id after post
+			alert(JSON.stringify(this.state)) // the newly added faculty is in but in the collection yet, but as a separate end message
+			ManyToManyDbMain.Main(message,collectionName,this.state) // implement many to many relationships in db
 		}
     };
 
+		
+		
+		
+
 	//***********************************************************Get data from db*******************
 	// read the mongodb collection universities in database "education"
-    getUniversities = () => {
+		getUniversities = () => {
         fetch('http://localhost:3001/api/getUniversities')
                 .then((data) => data.json())
                 .then((res) => this.setState({ universities: res.data }));
     };
 	
 	// read the mongodb collection faculties in database "education"
-	getFaculties= () => {
+ 	getFaculties= () => {
         fetch('http://localhost:3001/api/getFaculties')
                 .then((data) => data.json())
 				//set property "faculties" within the state" (won't throw error if you haven't defined property "faculties" within state".
                 .then((res) => this.setState({ faculties: res.data })); 
     };
-	
 	// read the mongodb collection bachelors in database "education"
 	getBachelors = () => {
         fetch('http://localhost:3001/api/getBachelors')
@@ -262,9 +285,9 @@ class App extends Component {
             style={{ width: '200px' }}
           />
           <button onClick={() => this.putDataToDB(this.state.message,"universities")}>
-		  {/*<button onClick={() => PutDataInDb.func2(this.state.message,"universities",FormatChecks)}>*/}
+			{/*<button onClick={() => PutDataInDb.func2(this.state.message,"universities",FormatChecks)}>*/}
 		  
-            Add your university
+			Add your university
           </button>
         </div>
 
@@ -276,7 +299,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message,"faculties")}>
+          <button onClick={() => {this.putDataToDB(this.state.message,"faculties"); ManyToManyDbMain.Main(this.state.message,"faculties",this.state)}}>
             Add your faculty
           </button>
         </div>
