@@ -1,7 +1,10 @@
 var ModifyDropdowns = require('./ModifyDropdownsV0');
 var facultyName;
+var facultyNames; // arr of faculty names 
 var facultyId;
+var facultyIds; // arr of faculty ids 
 var universityName;
+var universitiesIdsOfFaculty; // arr of arr of universities that have this faculty
 var universityId;
 /*
 Ensures the database is stored as ManyToMany to reduce the amount of
@@ -19,6 +22,28 @@ module.exports = {
 	// for adding a faculty
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
+		//alert("Incoming faculties="+faculties)
+		//alert("Incoming faculties -uni fold="+faculties.map((dat) => dat.universities))
+		
+		//alert("Incoming faculties[1]="+faculties[1])
+		alert("Faculties length = "+faculties.length)
+		//var facultiesOne = this.getSpecificArrElement(faculties,1)
+		//alert("Faculties[1].universities = "+this.getSpecificArrElement(faculties,1))
+		this.facultyIds = this.pushIdsToArray(faculties);
+		this.facultyNames = this.pushNamesToArray(faculties);
+		this.universitiesIdsOfFaculty = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
+		alert("faculty ids="+this.facultyNames)
+		alert("2nd faculty at index 1="+this.facultyNames[1]);
+		alert("faculty names="+this.facultyIds )
+		alert("faculty exists in universities="+this.universitiesIdsOfFaculty)
+		
+	
+		//alert("name ="+facultiesOne.name+" universities = "+facultiesOne.universities)
+
+		//alert("Faclties[1]="+faculties.dat[1].name)
+		//alert("Incoming faculties[1] -name fold="+faculties[1].map((dat) => dat.name))
+		//alert("Incoming faculties[1] -uni fold="+faculties[1].map((dat) => dat.universities))
+		//alert("Incoming faculties[0] -uni fold="+faculties[0].map((dat) => dat.universities))
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
 		this.universityName = this.lookUpMatchingingUniversity()
@@ -79,6 +104,9 @@ module.exports = {
 	},
 	
 	// adds the universityId to the faculty document in the Db
+	// 0. get the current list of universityId's
+	// 1. Add the current universityId to the list
+	// 2. Store the new list of universityId's
 	addUniversityIdToFaculty: function(universityId,facultyName) {
 		
 	},
@@ -97,5 +125,38 @@ module.exports = {
 		// 1. Then updates it by appending the incoming universityId to the existing
 		// array of UniversityId's
 		//https://stackoverflow.com/questions/44103187/axios-put-request-to-server`
+	},
+	
+	//Store the array so you can call arr.name or arr.property!
+	getSpecificArrElement(arr,index){
+		var found = arr.filter(function(item) { return item.name === 'testFacul'; });
+		//alert('found'+ found[i]);
+		return found[index];
+	},
+	
+	
+	// Push the id's of the faculties to a separate array
+	pushIdsToArray(faculties){
+		var facultyIds = faculties.map(function (temp_item) {
+			return temp_item._id
+		});
+		return facultyIds;
+	},
+	
+	// see if you can make a single array of names
+	pushNamesToArray(faculties){
+		var facultyNames = faculties.map(function (temp_item) {
+			return temp_item.name
+		});
+		return facultyNames;
+	},
+		
+	// Push university arrays of a faculty to an array
+	// TODO: determine what happends if they are null/void
+	pushUniversitiesIdsOfFacultiesToArray(faculties){
+		var universitiesIdsOfFaculty = faculties.map(function (temp_item) {
+			return temp_item.universities
+		});
+		return universitiesIdsOfFaculty;
 	}
 };
