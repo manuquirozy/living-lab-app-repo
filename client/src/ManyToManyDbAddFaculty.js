@@ -4,7 +4,7 @@ var facultyId;
 var universityName;
 var universityId;
 /*
-Methods ensures the database is stored as ManyToMany to reduce the amount of
+Ensures the database is stored as ManyToMany to reduce the amount of
 searching, at the cost of a larger database.
 */
 module.exports = {
@@ -96,5 +96,6 @@ module.exports = {
 		// 0. gets the current UniversityId's in the Universities collection.
 		// 1. Then updates it by appending the incoming universityId to the existing
 		// array of UniversityId's
+		//https://stackoverflow.com/questions/44103187/axios-put-request-to-server`
 	}
 };
