@@ -125,10 +125,13 @@ router.post('/putuniversityidtofaculty', (req, res) => {
 	
 	console.log("res="+res)
 	
-	var testArr = [];
+	//var testArr = [];
 	//testArr.push(req.body); // Put in an object with property name: "some name"
-	testArr.push(req.body.name); // Put in an object with property name: "some name"
-	testArr.push("two");
+	//testArr.push(req.body.name); // Put in an object with property name: "some name"
+	//testArr.push("two");
+	
+	var testArr = [];
+	testArr = req.body.name
 	Faculties.findOneAndUpdate({name: 'facul0'}, { $set: { universities: testArr} }).then((updatedDoc) => {})
 	
 	console.log("SUBMITTED VALUE")	

@@ -125,7 +125,10 @@ module.exports = {
 		// 2. Store the new list of universityId's
 		alert("The new list = "+this.universitiesIdsOfFaculty[facultyIndex])
 		
-		var tempString = "Inserted"
+		
+		var tempString = [];
+		tempString.push("Inserted0")
+		tempString.push("Inserted1")
 		
 		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
 		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString});
