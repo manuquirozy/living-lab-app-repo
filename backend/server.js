@@ -113,11 +113,21 @@ router.post('/putuniversityidtofaculty', (req, res) => {
 
 	const filter = { name: 'facul0' };
 	const update = { universities: "TESTNAME" };
-
-	console.log(Faculties)
-	console.log("ANd name = "+Faculties.name)
+	
+	console.log("req="+req.body)
+	//console.log("req0="+JSON.stringify(req))
+	//console.log("req1="+JSON.stringify(req.body))
+	console.log("req2="+JSON.stringify(req[0]))
+	console.log("req3="+JSON.stringify(req[1]))
+	console.log("req4="+req.body)
+	console.log("req5="+req.body[0])
+	//console.log("req6="+req.map((dat) => dat.name))
+	
+	console.log("res="+res)
+	
 	var testArr = [];
-	testArr.push("one");
+	//testArr.push(req.body); // Put in an object with property name: "some name"
+	testArr.push(req.body.name); // Put in an object with property name: "some name"
 	testArr.push("two");
 	Faculties.findOneAndUpdate({name: 'facul0'}, { $set: { universities: testArr} }).then((updatedDoc) => {})
 	

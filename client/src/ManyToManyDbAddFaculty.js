@@ -124,17 +124,11 @@ module.exports = {
 		this.universitiesIdsOfFaculty[facultyIndex] = this.addNewUniversityId(this.universitiesIdsOfFaculty[facultyIndex],universityId);
 		// 2. Store the new list of universityId's
 		alert("The new list = "+this.universitiesIdsOfFaculty[facultyIndex])
-		//putDataToDB = (message,collectionName) => {
-		//this.putDataToDB(this.universitiesIdsOfFaculty[facultyIndex])
-		//PutUniversitiesToFacultiesputDataToDB => {
-		//PutUniversitiesToFacultiesputDataToDB = (message) => {
-		//PutUniversitiesToFacultiesputDataToDB(this.universitiesIdsOfFaculty[facultyIndex])
-		//this.PutUniversitiesToFacultiesputDataToDB();
+		
 		var tempString = "Inserted"
-		//alert("The new list of IDS =")
+		
 		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
 		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString});
-		//this.axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
 	},
 
 	getFacultyIndex: function(facultyName) {
