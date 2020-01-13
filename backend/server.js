@@ -110,54 +110,17 @@ router.post('/putFaculty', (req, res) => {
 
 // add a university to faculty
 router.post('/putuniversityidtofaculty', (req, res) => {
-	//Faculties.findOne({name: "testFacul"},function (err,user){
-		//user.name = "ADDED";
-		//user.save()
-	//})
-	
-	/*
-  let data = new faculties();
 
-  console.log(req.body);
-
-  const { universityarray } = req.body;
-  data.universities = universityarray;
-  data.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-  */
-  
-  const filter = { name: 'facul0' };
+	const filter = { name: 'facul0' };
 	const update = { universities: "TESTNAME" };
 
-	// `doc` is the document _after_ `update` was applied because of
-	// `new: true`
-	//let doc = await faculties.findOneAndUpdate(filter, update, {
 	console.log(Faculties)
 	console.log("ANd name = "+Faculties.name)
 	Faculties.findOneAndUpdate({name: 'facul0'}, { $set: { universities: 'bar'} }).then((updatedDoc) => {})
 	
-	/*
-	let doc = Faculties.findOneAndUpdate(filter, update, {	
-	  new: true
-	});
-	*/
-	
-	console.log("SUBMITTED VALUE")
-	//console.log(doc.name);
-	
+	console.log("SUBMITTED VALUE")	
 });
 
-/*
-router.post('/putuniversityidtofaculty',function (req,res,next){
-
-Faculties.findOne({name: "testFacul"},function (err,user){
-user.name = "ADDED";
-user.save()
-}
-)});
-*/
 
 // add a bachelor
 router.post('/putBachelor', (req, res) => {
