@@ -116,7 +116,10 @@ router.post('/putuniversityidtofaculty', (req, res) => {
 
 	console.log(Faculties)
 	console.log("ANd name = "+Faculties.name)
-	Faculties.findOneAndUpdate({name: 'facul0'}, { $set: { universities: 'bar'} }).then((updatedDoc) => {})
+	var testArr = [];
+	testArr.push("one");
+	testArr.push("two");
+	Faculties.findOneAndUpdate({name: 'facul0'}, { $set: { universities: testArr} }).then((updatedDoc) => {})
 	
 	console.log("SUBMITTED VALUE")	
 });
