@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const FacultyCollection = new Schema(
   {
     name: String,
+	universities: String,
 	amountOfBuildings: Number
   },
   { collection: 'faculties' },

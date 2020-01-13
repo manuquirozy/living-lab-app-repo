@@ -1,3 +1,6 @@
+//import axios from 'axios';
+const axios = require("axios");
+//const { axios } = require("axios");
 var ModifyDropdowns = require('./ModifyDropdownsV0');
 var facultyName;
 var facultyNames; // arr of faculty names 
@@ -26,7 +29,7 @@ module.exports = {
 		//alert("Incoming faculties -uni fold="+faculties.map((dat) => dat.universities))
 		
 		//alert("Incoming faculties[1]="+faculties[1])
-		alert("Faculties length = "+faculties.length)
+		//alert("Faculties length = "+faculties.length)
 		//var facultiesOne = this.getSpecificArrElement(faculties,1)
 		//alert("Faculties[1].universities = "+this.getSpecificArrElement(faculties,1))
 		this.facultyIds = this.pushIdsToArray(faculties);
@@ -46,9 +49,9 @@ module.exports = {
 		//alert("Incoming faculties[1] -uni fold="+faculties[1].map((dat) => dat.universities))
 		//alert("Incoming faculties[0] -uni fold="+faculties[0].map((dat) => dat.universities))
 		
-		alert("Entire array of universities="+this.universitiesIdsOfFaculty)
-		alert("First index = "+this.universitiesIdsOfFaculty[0])
-		alert("Second index = "+this.universitiesIdsOfFaculty[1])
+		//alert("Entire array of universities="+this.universitiesIdsOfFaculty)
+		//alert("First index = "+this.universitiesIdsOfFaculty[0])
+		//alert("Second index = "+this.universitiesIdsOfFaculty[1])
 		
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
@@ -89,7 +92,7 @@ module.exports = {
 	// Perhaps re-use this method at Universities
 	lookUpAccompanyingUniversityId: function (universityName,state) {
 		const { universities } = state;
-		alert(JSON.stringify(universities))
+		//alert(JSON.stringify(universities))
 		var universityId = this.findIdOfCollection(universityName,universities);
 		
 		return universityId
@@ -121,6 +124,17 @@ module.exports = {
 		this.universitiesIdsOfFaculty[facultyIndex] = this.addNewUniversityId(this.universitiesIdsOfFaculty[facultyIndex],universityId);
 		// 2. Store the new list of universityId's
 		alert("The new list = "+this.universitiesIdsOfFaculty[facultyIndex])
+		//putDataToDB = (message,collectionName) => {
+		//this.putDataToDB(this.universitiesIdsOfFaculty[facultyIndex])
+		//PutUniversitiesToFacultiesputDataToDB => {
+		//PutUniversitiesToFacultiesputDataToDB = (message) => {
+		//PutUniversitiesToFacultiesputDataToDB(this.universitiesIdsOfFaculty[facultyIndex])
+		//this.PutUniversitiesToFacultiesputDataToDB();
+		var tempString = "Inserted"
+		//alert("The new list of IDS =")
+		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
+		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString});
+		//this.axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
 	},
 
 	getFacultyIndex: function(facultyName) {
@@ -189,5 +203,6 @@ module.exports = {
 			return temp_item.universities
 		});
 		return universitiesIdsOfFaculty;
-	}
+	},
+	
 };
