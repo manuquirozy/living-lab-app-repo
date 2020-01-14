@@ -26,32 +26,9 @@ module.exports = {
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
 		
-		//alert("Incoming faculties -uni fold="+faculties.map((dat) => dat.universities))
-		
-		//alert("Incoming faculties[1]="+faculties[1])
-		//alert("Faculties length = "+faculties.length)
-		//var facultiesOne = this.getSpecificArrElement(faculties,1)
-		//alert("Faculties[1].universities = "+this.getSpecificArrElement(faculties,1))
 		this.facultyIds = this.pushIdsToArray(faculties);
 		this.facultyNames = this.pushNamesToArray(faculties);
 		this.universitiesIdsOfFaculty = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
-		//alert("faculty ids="+this.facultyNames)
-		//alert("2nd faculty at index 1="+this.facultyNames[1]);
-		
-		//alert("faculty exists in universities="+this.universitiesIdsOfFaculty)
-		//alert("2nd uni (at index 1) in which faculty exists:="+this.universitiesIdsOfFaculty[1])
-		
-	
-		//alert("name ="+facultiesOne.name+" universities = "+facultiesOne.universities)
-
-		//alert("Faclties[1]="+faculties.dat[1].name)
-		//alert("Incoming faculties[1] -name fold="+faculties[1].map((dat) => dat.name))
-		//alert("Incoming faculties[1] -uni fold="+faculties[1].map((dat) => dat.universities))
-		//alert("Incoming faculties[0] -uni fold="+faculties[0].map((dat) => dat.universities))
-		
-		//alert("Entire array of universities="+this.universitiesIdsOfFaculty)
-		//alert("First index = "+this.universitiesIdsOfFaculty[0])
-		//alert("Second index = "+this.universitiesIdsOfFaculty[1])
 		
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
@@ -65,7 +42,6 @@ module.exports = {
 	lookUpFacultyId: function (input,entryIndex,faculties) {
 		var facultyId
 		var dat
-		//alert("MAP"+faculties.map((dat) => dat.name))
 		var facultyNames = faculties.map((dat) => dat.name)
 		var facultyIds = faculties.map((dat) => dat._id)
 		
@@ -98,7 +74,7 @@ module.exports = {
 		return universityId
 	},
 	
-	// Assumes the Entry is in collection, finds matching id
+	// Assumes the Entry is in collection (can be anything universites, faculties etc), finds matching id
 	findIdOfCollection(name,collection){
 		var i;
 		var foldedCollectionName = collection.map((dat) => dat.name)
@@ -115,12 +91,11 @@ module.exports = {
 	},
 	
 	// adds the universityId to the faculty document in the Db
-	
 	addUniversityIdToFaculty: function(universityId,facultyName) {
 		var facultyIndex = this.getFacultyIndex(facultyName);
 		// 0. get the list of universityId's
 		//this.universitiesIdsOfFaculty[facultyIndex]
-		// 1. Add the current universityId to the list
+		// 1. Add the current universityId to the list if it isn't already in
 		this.universitiesIdsOfFaculty[facultyIndex] = this.addNewUniversityId(this.universitiesIdsOfFaculty[facultyIndex],universityId);
 		// 2. Store the new list of universityId's
 		//alert("The new list of uni IDS = "+this.universitiesIdsOfFaculty[facultyIndex])
@@ -144,14 +119,22 @@ module.exports = {
 		//TODO: throw error
 	},
 	
+	// Adds the universityId to the list of UniversityIds if 
+	// it isnt already in. Creates new array if universitiesIds were empty
 	addNewUniversityId: function(oldUniversityIds,universityId) {
 		if (oldUniversityIds == undefined){
 			var newUniversityIds = [];	
 		} else {
 			var newUniversityIds = oldUniversityIds;
 		}
-		newUniversityIds.push(universityId)
-		return newUniversityIds;
+		if (newUniversityIds.includes(universityId)) {
+			alert("already in="+newUniversityIds)
+			return undefined;
+		} else {
+			alert("Adding")
+			newUniversityIds.push(universityId)
+			return newUniversityIds;
+		}
 	},
 	
 	// adds the facultyId to the university document in the Db

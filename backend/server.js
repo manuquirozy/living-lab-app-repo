@@ -109,7 +109,7 @@ router.post('/putFaculty', (req, res) => {
 });
 
 // add a university to faculty
-router.post('/putuniversityidtofaculty', (req, res) => {
+router.post('/putUniversityIdToFaculty', (req, res) => {
 
 	const filter = { name: 'facul0' };
 	const update = { universities: "TESTNAME" };
