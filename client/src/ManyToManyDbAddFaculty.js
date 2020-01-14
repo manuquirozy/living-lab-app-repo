@@ -123,12 +123,13 @@ module.exports = {
 		// 1. Add the current universityId to the list
 		this.universitiesIdsOfFaculty[facultyIndex] = this.addNewUniversityId(this.universitiesIdsOfFaculty[facultyIndex],universityId);
 		// 2. Store the new list of universityId's
-		alert("The new list = "+this.universitiesIdsOfFaculty[facultyIndex])
+		//alert("The new list of uni IDS = "+this.universitiesIdsOfFaculty[facultyIndex])
 		
 		
 		var tempString = [];
-		tempString.push("Inserted0")
-		tempString.push("Inserted1")
+		tempString.push(this.universitiesIdsOfFaculty[facultyIndex])
+		tempString.push(this.universitiesIdsOfFaculty[facultyIndex])
+		alert("The array = "+tempString)
 		
 		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
 		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString});
