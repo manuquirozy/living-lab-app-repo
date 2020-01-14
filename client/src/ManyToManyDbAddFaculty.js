@@ -138,8 +138,8 @@ module.exports = {
 		
 		
 		var tempString = [];
-		tempString.push(this.universitiesIdsOfFaculty[facultyIndex])
-		tempString.push(this.universitiesIdsOfFaculty[facultyIndex])
+		tempString.push(this.universitiesIdsOfFaculty[facultyIndex][0])
+		tempString.push(this.universitiesIdsOfFaculty[facultyIndex][0])
 		alert("The array = "+tempString)
 		
 		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});

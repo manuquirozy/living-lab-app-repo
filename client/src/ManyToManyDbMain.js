@@ -27,12 +27,12 @@ module.exports = {
 		const { bachelors } = state;
 		const { masters } = state;
 		const { courses } = state;
-		
 		switch(collectionName) {
 			case "universities":
 				break;
 			case "faculties":
-				if (this.searchNewEntry(input,faculties)) {ManyToManyDbAddFaculty.Main(input,this.foundEntryIndex,state)}
+				if (this.searchNewEntry(input,faculties)) {ManyToManyDbAddFaculty.Main(input,this.foundEntryIndex,state); 
+				return true;}
 				break;
 			case "bachelors":
 				break;
@@ -52,7 +52,7 @@ module.exports = {
 		for (i = foldedCollection.length; i>=0; i--) {
 			//alert("searching input="+input+" at index:"+i+" with folded="+foldedCollection[i])
 			if (foldedCollection[i] === input){
-				//alert("found input="+input+" at index:"+i+" with folded="+foldedCollection[i])
+				alert("found input="+input+" at index:"+i+" with folded="+foldedCollection[i])
 				this.foundEntryIndex = i;
 				return true;
 			}

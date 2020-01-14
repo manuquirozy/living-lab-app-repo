@@ -95,8 +95,10 @@ class App extends Component {
 	throwAlert(array,state){
 		//alert("facultiesEntries.length="+facultiesEntries.length)
 		if (facultiesEntries.length > 0){
-				ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)
-				facultiesEntries.pop()
+				//alert("engage Adding manyToMany")
+				if (ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)){
+					facultiesEntries.pop()
+				}
 		}
 	}
 	

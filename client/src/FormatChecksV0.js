@@ -1,4 +1,5 @@
 var ManyToManyDbAddFaculty = require('./ManyToManyDbAddFaculty');
+const axios = require("axios");
 //var ModifyDropdowns = require('./ModifyDropdownsV0');
 /*
 Performs checks on the validity of the input to the database.
@@ -70,22 +71,21 @@ module.exports = {
 			
 			//var universitiesIds = ManyToManyDbAddFaculty.getArrOfCurrentIds("universities",state)//gets the ids in the current dropdown 
 			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",state) // NotAnArray!
-			alert("ALl the ids of the universities are:"+universitiesIds+" and the current dropdown="+universitiesId)
-			alert("Entry0"+universitiesIds[0]) 
-			alert("Entry00"+universitiesIds[0][0]) 
 			
 			//1.e.3.5.4 Check whether it is in there.
 			var isNewCombo = (!universitiesIds[0].includes(universitiesId))
-			//var isNewCombo = (this.kmpSearch(universitiesId, universitiesIds) != -1)
 			
-			
-			alert("ISNEW="+isNewCombo)
 			if (isNewCombo){
 				//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
-				alert("New combo")
+				var newParentIds = ManyToManyDbAddFaculty.addNewUniversityId(universitiesIds[0],universitiesId);
+				alert("NewParentIds = "+newParentIds)
+				var tempString = [];
+				//tempString.push(newParentIds);
+				axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: newParentIds});
+				alert("New combo posted")
 			}
 			//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
-			alert("COmbo already exists")
+			alert("Combo already exists please select the university and then the faculty.")
 		}
 	},
 
@@ -284,39 +284,5 @@ module.exports = {
 			return e.options[e.selectedIndex].value;
 		}
 	},
-	
-	
-	// Searches for the given pattern string in the given text string using the Knuth-Morris-Pratt string matching algorithm.
-	// If the pattern is found, this returns the index of the start of the earliest match in 'text'. Otherwise -1 is returned.
-	kmpSearch(pattern, text) {
-		if (pattern.length == 0)
-			return 0; // Immediate match
-
-		// Compute longest suffix-prefix table
-		var lsp = [0]; // Base case
-		for (var i = 1; i < pattern.length; i++) {
-		var j = lsp[i - 1]; // Start by assuming we're extending the previous LSP
-		while (j > 0 && pattern.charAt(i) != pattern.charAt(j))
-			j = lsp[j - 1];
-		if (pattern.charAt(i) == pattern.charAt(j))
-			j++;
-			lsp.push(j);
-		}
-
-		// Walk through text string
-		var j = 0; // Number of chars matched in pattern
-		for (var i = 0; i < text.length; i++) {
-			while (j > 0 && text.charAt(i) != pattern.charAt(j))
-				j = lsp[j - 1]; // Fall back in the pattern
-			if (text.charAt(i) == pattern.charAt(j)) {
-				j++; // Next char matched, increment position
-				if (j == pattern.length)
-					return i - (j - 1);
-				}
-			}
-			return -1; // Not found
-	},
-
-
 
 };

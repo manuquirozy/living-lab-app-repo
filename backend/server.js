@@ -116,7 +116,7 @@ router.post('/putUniversityIdToFaculty', (req, res) => {
 	
 	var universitiesIds = []
 	for (var i = 0; i < req.body.name.length; i++) {
-		universitiesIds.push(req.body.name[i][0])
+		universitiesIds.push(req.body.name[i])
 	}
 	console.log("Putting in the array="+universitiesIds)
 	Faculties.findOneAndUpdate({name: 'facul0'}, { $set: { universities: universitiesIds} }).then((updatedDoc) => {})
