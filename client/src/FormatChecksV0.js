@@ -1,3 +1,5 @@
+var ManyToManyDbAddFaculty = require('./ManyToManyDbAddFaculty');
+//var ModifyDropdowns = require('./ModifyDropdownsV0');
 /*
 Performs checks on the validity of the input to the database.
 */
@@ -35,7 +37,15 @@ module.exports = {
 
 		// check whether the message is not already in the array.		
 		// TODO: Include collectionName to ManyToManyMain
-		if (!this.isNewEntryInDb(message,state)){return false;}
+		if (!this.isNewEntryInDb(message,collectionName,state)){
+			
+			// check if a new parent (combination) is being added
+			// eg. if faculty mechanical eng. is added for TU Delft, and already present in TU/e)
+			this.allowDuplicateEntries(collectionName,state,ModifyDropdowns)
+			
+			// disable adding duplicate entry
+			return false
+		;}
 		
 		// Verify whether user selected correct university
 		if (collectionName !="universities"){
@@ -43,6 +53,54 @@ module.exports = {
 			if (!this.askIfSelectedRightDropdowns(question)){return false;}
 		}
 		return true;
+	},
+
+	// Checks if the entry is a new combination even though already exists
+	// E.g mechanical engineering faculty at tue and tudelft
+	allowDuplicateEntries(collectionName,state,ModifyDropdowns){
+		//1.e.3.5.1 Get the current universityName of the dropdown box.
+		var parentCollection = this.getParentCollection(collectionName)
+		if (parentCollection != undefined) {
+			var uniName = ModifyDropdowns.getSelectedDropdownValues(parentCollection)
+			
+			//1.e.3.5.2 get the id of the current universityname in the dropdown box.
+			var universitiesId = ManyToManyDbAddFaculty.lookUpAccompanyingUniversityId(uniName,state)
+			
+			//1.e.3.5.3 Get the ids that are already in the faculty
+			
+			//var universitiesIds = ManyToManyDbAddFaculty.getArrOfCurrentIds("universities",state)//gets the ids in the current dropdown 
+			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",state)
+			alert("ALl the ids of the universities are:"+universitiesIds)
+			
+			//1.e.3.5.4 Check whether it is in there.
+			if (!universitiesIds.includes(universitiesId)){
+				//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
+				alert("New combo")
+			}
+			//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
+			alert("COmbo already exists")
+		}
+	},
+
+	// gets the parent collection(s) to check if it is a new entry combination
+	getParentCollection(collectionName){
+		switch(collectionName) {
+				case "universities":
+					return false
+					break;
+				case "faculties":
+					return "universities";
+					break;
+				case "bachelors":
+					// TODO implement
+					break;
+				case "masters":
+					// TODO implement
+					break;
+				case "courses":
+					// TODO implement
+					break;
+		}
 	},
 
 	// Check if string is longer than 200

@@ -30,11 +30,48 @@ module.exports = {
 		this.facultyNames = this.pushNamesToArray(faculties);
 		this.universitiesIdsOfFaculty = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
 		
+		//this.getIdsCollAofCollB("universities","faculties",state)
+		
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
 		this.universityName = this.lookUpMatchingingUniversity()
 		this.universityId = this.lookUpAccompanyingUniversityId(this.universityName,state);
 		this.addUniversityIdToFaculty(this.universityId, facultyName)
+	},
+	
+	// returns array of parent (collectionA) Id's of a collectionB.
+	getIdsCollAofCollB(collectionAName,collectionBName,incomingState){
+		var collAContent = this.getCollection(collectionAName,incomingState);
+		var collBContent = this.getCollection(collectionBName,incomingState);
+		
+		this.universitiesIdsOfFaculty = this.pushCollAIdsOfCollBToArray(collBContent,collectionAName);
+		alert("IDS of the unies are:"+this.universitiesIdsOfFaculty)
+		return this.universitiesIdsOfFaculty;
+	},
+	
+	getCollection(collectionName, incomingState){
+		switch(collectionName) {
+				case "universities":
+					const { universities } = incomingState;
+					return universities;
+					break;
+				case "faculties":
+					const { faculties } = incomingState;
+					return faculties;
+					break;
+				case "bachelors":
+					const { bachelors } = incomingState;
+					return bachelors;
+					break;
+				case "masters":
+					const { masters } = incomingState;
+					return masters;
+					break;
+				case "courses":
+					const { courses } = incomingState;
+					return courses;
+					break;
+		}
 	},
 	
 	// Finds the FacultyId based on the facultyName
@@ -185,4 +222,84 @@ module.exports = {
 		return universitiesIdsOfFaculty;
 	},
 	
+	pushCollAIdsOfCollBToArray(collectionBContent,collectionAName){
+		var collAIdsOfcollB = collectionBContent.map(function (tempItem) {
+			alert("CollB name = "+collectionAName)
+			switch(collectionAName) {
+				case "universities":
+					alert("The universities are:"+tempItem.universities)
+					return tempItem.universities;
+					break;
+				case "faculties":
+					return tempItem.faculties;
+					break;
+				case "bachelors":
+					return tempItem.bachelors;
+					break;
+				case "masters":
+					return tempItem.masters;
+					break;
+				case "courses":
+					return tempItem.courses;
+					break;
+			}	
+			//return this.getCollectionFold(collectionBName,temp_item)
+		});
+		return collAIdsOfcollB;
+	},
+	
+	// Returns array of the Ids in a collection in the
+	// current dropdownbox/state
+	getArrOfCurrentIds(collectionName,incomingState){
+		switch(collectionName) {
+				case "universities":
+					const { universities } = incomingState;
+					return this.getListOfIdsFromCollection(universities);
+					break;
+				case "faculties":
+					const { faculties } = incomingState;
+					return this.getListOfIdsFromCollection(faculties)
+					break;
+				case "bachelors":
+					const { bachelors } = incomingState;
+					return this.getListOfIdsFromCollection(bachelors)
+					break;
+				case "masters":
+					const { masters } = incomingState;
+					return this.getListOfIdsFromCollection(masters)
+					break;
+				case "courses":
+					const { courses } = incomingState;
+					return this.getListOfIdsFromCollection(courses)
+					break;
+		}
+	},
+	
+	//returns an array ids of the any collection
+	getListOfIdsFromCollection(collection){
+		var collectionIds = collection.map(function (temp_item) {
+			return temp_item._id
+		});
+		return collectionIds;
+	},
+	
+	getCollectionFold(collectionName, tempItem){
+		switch(collectionName) {
+				case "universities":
+					return tempItem.universities;
+					break;
+				case "faculties":
+					return tempItem.faculties;
+					break;
+				case "bachelors":
+					return tempItem.bachelors;
+					break;
+				case "masters":
+					return tempItem.masters;
+					break;
+				case "courses":
+					return tempItem.courses;
+					break;
+		}
+	},
 };
