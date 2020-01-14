@@ -25,7 +25,7 @@ module.exports = {
 	// for adding a faculty
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
-		
+		alert("Engaging addition")
 		this.facultyIds = this.pushIdsToArray(faculties);
 		this.facultyNames = this.pushNamesToArray(faculties);
 		this.universitiesIdsOfFaculty = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
@@ -35,7 +35,6 @@ module.exports = {
 		this.universityName = this.lookUpMatchingingUniversity()
 		this.universityId = this.lookUpAccompanyingUniversityId(this.universityName,state);
 		this.addUniversityIdToFaculty(this.universityId, facultyName)
-		
 	},
 	
 	// Finds the FacultyId based on the facultyName

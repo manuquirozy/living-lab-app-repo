@@ -95,9 +95,8 @@ class App extends Component {
 	throwAlert(array,state){
 		//alert("facultiesEntries.length="+facultiesEntries.length)
 		if (facultiesEntries.length > 0){
-			//alert("Content="+facultiesEntries[0])
-			ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)
-			//alert("Called with periodic state stringify="+JSON.stringify(this.state))
+				ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)
+				facultiesEntries.pop()
 		}
 	}
 	
