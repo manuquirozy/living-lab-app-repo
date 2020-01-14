@@ -25,7 +25,6 @@ module.exports = {
 	// for adding a faculty
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
-		alert("Engaging addition")
 		this.facultyIds = this.pushIdsToArray(faculties);
 		this.facultyNames = this.pushNamesToArray(faculties);
 		this.universitiesIdsOfFaculty = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
@@ -139,11 +138,9 @@ module.exports = {
 		
 		var tempString = [];
 		tempString.push(this.universitiesIdsOfFaculty[facultyIndex][0])
-		tempString.push(this.universitiesIdsOfFaculty[facultyIndex][0])
-		alert("The array = "+tempString)
-		
 		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
-		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString});
+		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString, universities: facultyName});
+		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty/name/'+tempString+"/universities/"+"hi");
 	},
 
 	getFacultyIndex: function(facultyName) {
@@ -164,10 +161,9 @@ module.exports = {
 			var newUniversityIds = oldUniversityIds;
 		}
 		if (newUniversityIds.includes(universityId)) {
-			alert("already in="+newUniversityIds)
+			//alert("already in="+newUniversityIds)
 			return undefined;
 		} else {
-			alert("Adding")
 			newUniversityIds.push(universityId)
 			return newUniversityIds;
 		}

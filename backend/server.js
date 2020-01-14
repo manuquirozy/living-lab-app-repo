@@ -109,9 +109,18 @@ router.post('/putFaculty', (req, res) => {
 });
 
 // add a university to faculty
-router.post('/putUniversityIdToFaculty', (req, res) => {
-
+//router.post('/putUniversityIdToFaculty/:name?/:universities?', (req, res) => {
+router.post('/putUniversityIdToFaculty', (req, res) => {	
+	console.log("targetFaculty="+req.body)
+	console.log("targetFaculty0="+req.body.universities)
+	console.log("targetFaculty1="+req.body.name)
+	console.log("params="+req.params.name)
+	console.log("params="+req.params.universities)
+	console.log("res="+res.data)
+	console.log("res0="+res.name)
+	console.log("res1="+res.universities)
 	const filter = { name: 'facul0' };
+	//const filter = { name: req.body.universities };
 	const update = { universities: "TESTNAME" };
 	
 	var universitiesIds = []
