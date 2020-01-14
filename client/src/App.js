@@ -93,10 +93,11 @@ class App extends Component {
 	// pass the state with the entry to ManyToManyDbMain to 
 	// get the id of the new entry to create the ManyToMany relations
 	throwAlert(array,state){
+		//alert("facultiesEntries.length="+facultiesEntries.length)
 		if (facultiesEntries.length > 0){
-			//alert("Content="+facultiesEntries)
+			//alert("Content="+facultiesEntries[0])
 			ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)
-			//alert("periodic state stringify="+JSON.stringify(this.state))
+			//alert("Called with periodic state stringify="+JSON.stringify(this.state))
 		}
 	}
 	
@@ -263,7 +264,7 @@ class App extends Component {
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		{/*singleelement = {ModifyDropdowns.getSingleEntry(universities)}*/}
-		
+		 
 		<br></br> 
 		{/*Dropdownbox*/}
 		{/*Source: https://memorynotfound.com/dynamically-add-remove-options-select-javascript<br></br>*/}
@@ -318,7 +319,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => {this.putDataToDB(this.state.message,"faculties"),this.state}}>
+          <button onClick={() => this.putDataToDB(this.state.message,"faculties")}>
             Add your faculty
           </button>
         </div>

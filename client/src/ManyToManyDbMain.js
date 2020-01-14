@@ -49,9 +49,10 @@ module.exports = {
 	searchNewEntry(input,collection){
 		var i;
 		var foldedCollection = collection.map((dat) => dat.name)
-		for (i = foldedCollection.length; i>0; i--) {
+		for (i = foldedCollection.length; i>=0; i--) {
+			//alert("searching input="+input+" at index:"+i+" with folded="+foldedCollection[i])
 			if (foldedCollection[i] === input){
-				//alert("found input="+input+" at index:"+i)
+				alert("found input="+input+" at index:"+i+" with folded="+foldedCollection[i])
 				this.foundEntryIndex = i;
 				return true;
 			}

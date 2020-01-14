@@ -25,7 +25,7 @@ module.exports = {
 	// for adding a faculty
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
-		//alert("Incoming faculties="+faculties)
+		
 		//alert("Incoming faculties -uni fold="+faculties.map((dat) => dat.universities))
 		
 		//alert("Incoming faculties[1]="+faculties[1])
