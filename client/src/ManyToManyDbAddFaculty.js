@@ -45,7 +45,7 @@ module.exports = {
 		var collBContent = this.getCollection(collectionBName,incomingState);
 		
 		this.universitiesIdsOfFaculty = this.pushCollAIdsOfCollBToArray(collBContent,collectionAName);
-		alert("IDS of the unies are:"+this.universitiesIdsOfFaculty)
+		//alert("IDS of the unies are:"+this.universitiesIdsOfFaculty)
 		return this.universitiesIdsOfFaculty;
 	},
 	
