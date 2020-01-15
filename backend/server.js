@@ -108,12 +108,14 @@ router.post('/putFaculty', (req, res) => {
   });
 });
 
-// add a university to faculty
+// add a university to faculty document
 router.post('/putUniversityIdToFaculty', (req, res) => {	
+	// log to server what is added
 	console.log("universitiesIds="+req.body.universitiesIds)
 	console.log("facultiesName="+req.body.facultiesName)
+	
+	// push entries into MongoDB
 	Faculties.findOneAndUpdate({name: req.body.facultiesName}, { $set: { universities: req.body.universitiesIds} }).then((updatedDoc) => {})
-	console.log("SUBMITTED VALUE")	
 });
 
 

@@ -4,15 +4,7 @@ const axios = require("axios");
 /*
 Performs checks on the validity of the input to the database.
 */
-module.exports = {
-  func1: function () {
-    // func1 impl
-	console.log(5 + 6);
-  },
-  func2: function () {
-    // func2 impl
-	alert("hello world")
-  },
+module.exports = { 
 	// Main method of class that coordinates the checks that are executed.
 	correctInputFomat: function (message,collectionName,state,ModifyDropdowns){
 		if (!this.isTooLong(message)){
@@ -60,6 +52,7 @@ module.exports = {
 	// E.g mechanical engineering faculty at tue and tudelft
 	// collectionName = universities or faculties, not aerospace eng. etc.
 	allowDuplicateEntries(facultiesName,collectionName,state,ModifyDropdowns){
+		
 		//1.e.3.5.1 Get the current universityName of the dropdown box.
 		var parentCollection = this.getParentCollection(collectionName)
 		if (parentCollection != undefined) {
@@ -69,33 +62,25 @@ module.exports = {
 			var universitiesId = ManyToManyDbAddFaculty.lookUpAccompanyingUniversityId(uniName,state)
 			
 			//1.e.3.5.3 Get the ids that are already in the faculty
+			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",facultiesName,state)
 			
-			//var universitiesIds = ManyToManyDbAddFaculty.getArrOfCurrentIds("universities",state)//gets the ids in the current dropdown 
-			alert("Passing the name of the faculty="+facultiesName)
-			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",facultiesName,state) // NotAnArray!
-			alert("Found universitiesIds in FormatCHeck="+universitiesIds)
+			
 			//1.e.3.5.4 Check whether it is in there.
 			var isNewCombo = (!universitiesIds.includes(universitiesId))
-			alert("isNewCombo="+isNewCombo)
-			
 			if (isNewCombo){
+				
 				//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
 				var newParentIds = ManyToManyDbAddFaculty.addNewUniversityId(universitiesIds,universitiesId);
-				alert("NewParentIds = "+newParentIds)
-				var tempString = [];
-				//tempString.push(newParentIds);
-				alert("Adding the facultyName e.g. facul0="+facultiesName)
 				var body = {
 					facultiesName: facultiesName,
 					universitiesIds: newParentIds
 				  }
-      //return this.http.post('/api/createCollection', body);
-				//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: newParentIds});
 				axios.post('http://localhost:3001/api/putUniversityIdToFaculty', body);
 				alert("New combo posted")
+			} else {
+				//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
+				alert("Combo already exists please select the university and then the faculty.")
 			}
-			//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
-			alert("Combo already exists please select the university and then the faculty.")
 		}
 	},
 
@@ -182,6 +167,7 @@ module.exports = {
 		return true;
 	},
 	
+	// checks if string is in array *can replace with ".includes("
 	checkIfInArr: function(str,arr){
 		var i;
 		// only copy the non-undefined values from incoming array to newArr
