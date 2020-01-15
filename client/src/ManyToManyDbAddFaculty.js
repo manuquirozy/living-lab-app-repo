@@ -8,7 +8,9 @@ var facultyId;
 var facultyIds; // arr of faculty ids 
 var universityName;
 var universitiesIdsOfFaculties; // arr of arr of universities that have this faculty
-var universityId;
+var facultiesIdsOfUniversities; // arr of arr of universities that have this faculty
+var universitiesId;
+var universitiesIds;
 /*
 Ensures the database is stored as ManyToMany to reduce the amount of
 searching, at the cost of a larger database.
@@ -25,14 +27,24 @@ module.exports = {
 	// for adding a faculty
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
+		const { universities } = state;
+		
+		// store the ids in the documents in collections
 		this.facultyIds = this.pushIdsToArray(faculties);
+		this.universitiesIds = this.pushIdsToArray(universities);
+		
+		// store the names in the documents in collections
 		this.facultyNames = this.pushNamesToArray(faculties);
+		this.universitiesNames = this.pushNamesToArray(universities);
+		
 		this.universitiesIdsOfFaculties = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
+		this.facultiesIdsOfUniversities = this.pushUniversitiesIdsOfFacultiesToArray(universities);
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
 		this.universityName = this.lookUpMatchingingUniversity()
 		this.universityId = this.lookUpAccompanyingUniversityId(this.universityName,state);
 		this.addUniversityIdToFaculty(this.universityId, this.facultyName)
+		this.addFacultyIdToUniversity(this.facultyId,this.universityName)
 	},
 	
 	// returns array of parent (collectionA) Id's of a document in collectionB.
@@ -136,9 +148,9 @@ module.exports = {
 		// TODO: Throw error, should always find name(and id)
 	},
 	
+	
 	// adds the universityId to the faculty document in the Db
 	addUniversityIdToFaculty: function(universityId,facultyName) {
-		
 		// 0. get the index at which the facultyName is located in the collection "faculties"
 		var facultyIndex = this.getFacultyIndex(facultyName);
 		
@@ -157,10 +169,44 @@ module.exports = {
 		// 4. push message into MongoDB (to update the faculties document with name facultyName
 		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', body);
 	},
+	
+	
+	// adds the facultyId to the university document in the Db
+	addFacultyIdToUniversity: function(facultiesId,universitiesName) {
+		alert("INCOMING UNIVERSITYID="+facultiesId)
+		// 0. get the index at which the UNIVERSITYName is located in the collection "universities"
+		var universitiesIndex = this.getUniversitiesIndex(universitiesName);
+		
+		// 1. get the list of universitiesId's
+		var facultiesIdsInUniversities = this.facultiesIdsOfUniversities[universitiesIndex]
+		
+		// 2. Add the current universityId to the list if it isn't already in
+		this.facultiesIdsOfUniversities[universitiesIndex] = this.addNewUniversityId(facultiesIdsInUniversities,facultiesId); // TODO: Check if general
+		
+		// 3. create body of push message
+		var body = {
+					universitiesName: universitiesName,
+					facultiesIds: facultiesId,
+				  }
+				  
+		alert("Pushing:"+body)
+		// 4. push message into MongoDB (to update the faculties document with name universitiesName
+		axios.post('http://localhost:3001/api/putFacultyIdToUniversity', body);
+	},
 
 	getFacultyIndex: function(facultyName) {
 		for (var i = 0; i < this.facultyNames.length; i++) {
 			if (this.facultyNames[i] == facultyName) {
+				return i;
+			}
+		} 
+		//TODO: throw error
+	},
+	
+	// get index of name of university in universities collection
+	getUniversitiesIndex: function(universityName) {
+		for (var i = 0; i < this.universitiesNames.length; i++) {
+			if (this.universitiesNames[i] == universityName) {
 				return i;
 			}
 		} 
@@ -190,10 +236,6 @@ module.exports = {
 		}
 	},
 	
-	// adds the facultyId to the university document in the Db
-	addFacultyIdToUniversity: function(facultyId,universityName) {
-		
-	},
 	
 	// generalised method to add an id of idCollection (e.g. faculties)
 	// to a collection (e.g. Universities)

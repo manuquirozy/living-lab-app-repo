@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const UniversityCollection = new Schema(
   {
     name: String,
-	temperature: Number
+	faculties: Array
   },
   { collection: 'universities' },
   { timestamps: true ,useUnifiedTopology: true}
