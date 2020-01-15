@@ -109,22 +109,10 @@ router.post('/putFaculty', (req, res) => {
 });
 
 // add a university to faculty
-//router.post('/putUniversityIdToFaculty/:name?/:universities?', (req, res) => {
 router.post('/putUniversityIdToFaculty', (req, res) => {	
 	console.log("universitiesIds="+req.body.universitiesIds)
 	console.log("facultiesName="+req.body.facultiesName)
-	var facultiesName = req.body.facultiesName;
-	//var universitiesIds = req.body.universityIds;
-	//const filter = { name: facultiesName };
-	//const update = { universities: universitiesIds };
-	
-	//var universitiesIds = []
-	//for (var i = 0; i < req.body.universitiesIds.length; i++) {
-	//	universitiesIds.push(req.body.universitiesIds[i])
-	//}
-	//console.log("Putting in the array="+universitiesIds)
-	Faculties.findOneAndUpdate({name: facultiesName}, { $set: { universities: req.body.universitiesIds} }).then((updatedDoc) => {})
-	
+	Faculties.findOneAndUpdate({name: req.body.facultiesName}, { $set: { universities: req.body.universitiesIds} }).then((updatedDoc) => {})
 	console.log("SUBMITTED VALUE")	
 });
 

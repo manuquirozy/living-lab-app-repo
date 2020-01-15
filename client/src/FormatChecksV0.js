@@ -71,24 +71,23 @@ module.exports = {
 			//1.e.3.5.3 Get the ids that are already in the faculty
 			
 			//var universitiesIds = ManyToManyDbAddFaculty.getArrOfCurrentIds("universities",state)//gets the ids in the current dropdown 
-			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",state) // NotAnArray!
-			
+			alert("Passing the name of the faculty="+facultiesName)
+			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",facultiesName,state) // NotAnArray!
+			alert("Found universitiesIds in FormatCHeck="+universitiesIds)
 			//1.e.3.5.4 Check whether it is in there.
-			var isNewCombo = (!universitiesIds[0].includes(universitiesId))
+			var isNewCombo = (!universitiesIds.includes(universitiesId))
+			alert("isNewCombo="+isNewCombo)
 			
 			if (isNewCombo){
 				//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
-				var newParentIds = ManyToManyDbAddFaculty.addNewUniversityId(universitiesIds[0],universitiesId);
+				var newParentIds = ManyToManyDbAddFaculty.addNewUniversityId(universitiesIds,universitiesId);
 				alert("NewParentIds = "+newParentIds)
 				var tempString = [];
 				//tempString.push(newParentIds);
 				alert("Adding the facultyName e.g. facul0="+facultiesName)
 				var body = {
 					facultiesName: facultiesName,
-					universitiesIds: newParentIds,
-					username: newParentIds,
-					description: "testDescription"
-					
+					universitiesIds: newParentIds
 				  }
       //return this.http.post('/api/createCollection', body);
 				//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: newParentIds});

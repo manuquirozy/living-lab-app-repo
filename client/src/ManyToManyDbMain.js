@@ -32,6 +32,7 @@ module.exports = {
 				break;
 			case "faculties":
 				if (this.searchNewEntry(input,faculties)) {ManyToManyDbAddFaculty.Main(input,this.foundEntryIndex,state); 
+				//alert("Found it")
 				return true;}
 				break;
 			case "bachelors":

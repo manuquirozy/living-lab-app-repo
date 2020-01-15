@@ -7,7 +7,7 @@ var facultyNames; // arr of faculty names
 var facultyId;
 var facultyIds; // arr of faculty ids 
 var universityName;
-var universitiesIdsOfFaculty; // arr of arr of universities that have this faculty
+var universitiesIdsOfFaculties; // arr of arr of universities that have this faculty
 var universityId;
 /*
 Ensures the database is stored as ManyToMany to reduce the amount of
@@ -25,27 +25,54 @@ module.exports = {
 	// for adding a faculty
 	Main: function (input,entryIndex,state) {
 		const { faculties } = state;
+		//alert("Got input="+input+" index="+entryIndex)
 		this.facultyIds = this.pushIdsToArray(faculties);
 		this.facultyNames = this.pushNamesToArray(faculties);
-		this.universitiesIdsOfFaculty = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
+		//alert("facultyIds = "+this.facultyIds+" facultyNames="+this.facultyNames) verified
+		this.universitiesIdsOfFaculties = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
 		
+		//alert("The universityIds of that faculty are:"+this.universitiesIdsOfFaculties)
 		//this.getIdsCollAofCollB("universities","faculties",state)
 		
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
 		this.universityName = this.lookUpMatchingingUniversity()
 		this.universityId = this.lookUpAccompanyingUniversityId(this.universityName,state);
-		this.addUniversityIdToFaculty(this.universityId, facultyName)
+		alert("Pushing:"+this.universityId+" to facultyName="+this.facultyName)
+		this.addUniversityIdToFaculty(this.universityId, this.facultyName)
 	},
 	
-	// returns array of parent (collectionA) Id's of a collectionB.
-	getIdsCollAofCollB(collectionAName,collectionBName,incomingState){
+	// returns array of parent (collectionA) Id's of a document in collectionB.
+	getIdsCollAofCollB(collectionAName,collectionBName,documentBName,incomingState){
 		var collAContent = this.getCollection(collectionAName,incomingState);
 		var collBContent = this.getCollection(collectionBName,incomingState);
 		
-		this.universitiesIdsOfFaculty = this.pushCollAIdsOfCollBToArray(collBContent,collectionAName);
-		//alert("IDS of the unies are:"+this.universitiesIdsOfFaculty)
-		return this.universitiesIdsOfFaculty;
+		this.universitiesIdsOfFaculties = this.pushCollAIdsOfCollBToArray(collBContent,collectionAName);
+		alert("IDS of the unies are:"+this.universitiesIdsOfFaculties)
+		// TODO: filter from all universityIds to only the one from the given documentBName
+		// 0. get index of documentBName from collectionBContent
+			var collBIndex=this.getIndexDocument(collBContent,documentBName)
+		// 1. Only get those Ids
+		//for (var i = 0; i < this.universitiesIdsOfFaculties.length; i++) {
+			//alert("i="+i+" and idsssssss are="+this.universitiesIdsOfFaculties[i])
+		//}
+		alert("Returning ids:"+this.universitiesIdsOfFaculties[collBIndex])
+		return this.universitiesIdsOfFaculties[collBIndex];
+	},
+	
+	// Assumes all entries are unique. Returns index,
+	// starting at 0 of new documents.
+	getIndexDocument(collection,documentName){
+		alert("collection="+collection)
+		var foldedCollection = collection.map((tempItem) => tempItem.name)
+		alert("foldedCollection="+foldedCollection)
+		for (var i = 0; i < foldedCollection.length; i++) {
+			alert("collection.name="+foldedCollection[i])
+			if (documentName === foldedCollection[i]) {
+				return i;
+			}
+		}
+		// TODO Throw error: should always find document
 	},
 	
 	getCollection(collectionName, incomingState){
@@ -129,17 +156,23 @@ module.exports = {
 	addUniversityIdToFaculty: function(universityId,facultyName) {
 		var facultyIndex = this.getFacultyIndex(facultyName);
 		// 0. get the list of universityId's
-		//this.universitiesIdsOfFaculty[facultyIndex]
+		//this.universitiesIdsOfFaculties[facultyIndex]
 		// 1. Add the current universityId to the list if it isn't already in
-		this.universitiesIdsOfFaculty[facultyIndex] = this.addNewUniversityId(this.universitiesIdsOfFaculty[facultyIndex],universityId);
+		this.universitiesIdsOfFaculties[facultyIndex] = this.addNewUniversityId(this.universitiesIdsOfFaculties[facultyIndex],universityId);
 		// 2. Store the new list of universityId's
-		//alert("The new list of uni IDS = "+this.universitiesIdsOfFaculty[facultyIndex])
+		//alert("The new list of uni IDS = "+this.universitiesIdsOfFaculties[facultyIndex])
 		
 		
 		var tempString = [];
-		tempString.push(this.universitiesIdsOfFaculty[facultyIndex][0])
-		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculty[facultyIndex]});
-		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: tempString, universities: facultyName});
+		tempString.push(this.universitiesIdsOfFaculties[facultyIndex][0])
+		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {universityArray: this.universitiesIdsOfFaculties[facultyIndex]});
+		
+		var body = {
+					facultiesName: facultyName,
+					universitiesIds: universityId,
+				  }
+				  
+		axios.post('http://localhost:3001/api/putUniversityIdToFaculty', body);
 		//axios.post('http://localhost:3001/api/putUniversityIdToFaculty/name/'+tempString+"/universities/"+"hi");
 	},
 
@@ -155,10 +188,17 @@ module.exports = {
 	// Adds the universityId to the list of UniversityIds if 
 	// it isnt already in. Creates new array if universitiesIds were empty
 	addNewUniversityId: function(oldUniversityIds,universityId) {
+		alert("oldUniversityIds="+oldUniversityIds+"new uni Id="+universityId)
 		if (oldUniversityIds == undefined){
 			var newUniversityIds = [];	
 		} else {
-			var newUniversityIds = oldUniversityIds;
+			if (Array.isArray(oldUniversityIds)) {
+				alert("oldUniversityIds is an array")
+				var newUniversityIds = oldUniversityIds;
+			} else {
+				alert("oldUniversityIds was NOT an array")
+				var newUniversityIds = [oldUniversityIds];
+			}
 		}
 		if (newUniversityIds.includes(universityId)) {
 			//alert("already in="+newUniversityIds)
@@ -212,15 +252,17 @@ module.exports = {
 	// Push university arrays of a faculty to an array
 	// TODO: determine what happends if they are null/void
 	pushUniversitiesIdsOfFacultiesToArray(faculties){
-		var universitiesIdsOfFaculty = faculties.map(function (temp_item) {
+		var universitiesIdsOfFaculties = faculties.map(function (temp_item) {
 			return temp_item.universities
 		});
-		return universitiesIdsOfFaculty;
+		return universitiesIdsOfFaculties;
 	},
 	
+	// return the ids of collectionA that are in ALL documents in collectionB.
 	pushCollAIdsOfCollBToArray(collectionBContent,collectionAName){
+		alert("The incoming content = "+collectionBContent)
 		var collAIdsOfcollB = collectionBContent.map(function (tempItem) {
-			alert("CollB name = "+collectionAName)
+			alert("Collection type of B = "+collectionAName)
 			switch(collectionAName) {
 				case "universities":
 					alert("The universities are:"+tempItem.universities)
