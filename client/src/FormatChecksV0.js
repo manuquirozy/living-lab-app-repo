@@ -42,7 +42,7 @@ module.exports = {
 			
 			// check if a new parent (combination) is being added
 			// eg. if faculty mechanical eng. is added for TU Delft, and already present in TU/e)
-			this.allowDuplicateEntries(collectionName,state,ModifyDropdowns)
+			this.allowDuplicateEntries(message,collectionName,state,ModifyDropdowns)
 			
 			// disable adding duplicate entry
 			return false
@@ -58,7 +58,8 @@ module.exports = {
 
 	// Checks if the entry is a new combination even though already exists
 	// E.g mechanical engineering faculty at tue and tudelft
-	allowDuplicateEntries(collectionName,state,ModifyDropdowns){
+	// collectionName = universities or faculties, not aerospace eng. etc.
+	allowDuplicateEntries(facultiesName,collectionName,state,ModifyDropdowns){
 		//1.e.3.5.1 Get the current universityName of the dropdown box.
 		var parentCollection = this.getParentCollection(collectionName)
 		if (parentCollection != undefined) {
@@ -81,7 +82,17 @@ module.exports = {
 				alert("NewParentIds = "+newParentIds)
 				var tempString = [];
 				//tempString.push(newParentIds);
-				axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: newParentIds});
+				alert("Adding the facultyName e.g. facul0="+facultiesName)
+				var body = {
+					facultiesName: facultiesName,
+					universitiesIds: newParentIds,
+					username: newParentIds,
+					description: "testDescription"
+					
+				  }
+      //return this.http.post('/api/createCollection', body);
+				//axios.post('http://localhost:3001/api/putUniversityIdToFaculty', {name: newParentIds});
+				axios.post('http://localhost:3001/api/putUniversityIdToFaculty', body);
 				alert("New combo posted")
 			}
 			//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
