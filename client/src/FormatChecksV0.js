@@ -60,28 +60,66 @@ module.exports = {
 			
 			//1.e.3.5.2 get the id of the current universityname in the dropdown box.
 			var universitiesId = ManyToManyDbAddFaculty.lookUpAccompanyingUniversityId(uniName,state)
+			var facultiesId = ManyToManyDbAddFaculty.lookUpAccompanyingFacultiesId(facultiesName,state)
 			
-			//1.e.3.5.3 Get the ids that are already in the faculty
-			var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",facultiesName,state)
+			this.addUniversitiesIdToFacultiesDuplicate(facultiesName,collectionName,state,ModifyDropdowns,uniName,universitiesId)
 			
-			
-			//1.e.3.5.4 Check whether it is in there.
-			var isNewCombo = (!universitiesIds.includes(universitiesId))
-			if (isNewCombo){
-				
-				//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
-				var newParentIds = ManyToManyDbAddFaculty.addNewUniversityId(universitiesIds,universitiesId);
-				var body = {
-					facultiesName: facultiesName,
-					universitiesIds: newParentIds
-				  }
-				axios.post('http://localhost:3001/api/putUniversityIdToFaculty', body);
-				alert("New combo posted")
-			} else {
-				//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
-				alert("Combo already exists please select the university and then the faculty.")
-			}
+			this.addFacultiesDuplicateIdToUniversities(facultiesName,collectionName,state,ModifyDropdowns,uniName,facultiesId)
 		}
+	},
+
+
+	// adds the universities Id to the faculty document property: Universities
+	// to implement the one(faculty)-to-many(universities) relation part of the many-to-many.
+	addUniversitiesIdToFacultiesDuplicate(facultiesName,collectionName,state,ModifyDropdowns,uniName,universitiesId){
+		
+		//1.e.3.5.3 Get the universitiesIds that are already in the faculty
+		var universitiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("universities","faculties",facultiesName,state)
+		
+		
+		//1.e.3.5.4 Check whether it is in there.
+		var isNewCombo = (!universitiesIds.includes(universitiesId))
+		if (isNewCombo){
+			
+			//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
+			var newParentIds = ManyToManyDbAddFaculty.addNewUniversityIdToOldArr(universitiesIds,universitiesId);
+			var body = {
+				facultiesName: facultiesName,
+				universitiesIds: newParentIds
+			  }
+			axios.post('http://localhost:3001/api/putUniversityIdToFaculty', body);
+			alert("New combo posted")
+		} else {
+			//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
+			alert("Combo already exists please select the university and then the faculty.")
+		}
+	},
+
+	// adds the universities Id to the faculty document property: Universities
+	// to implement the one(faculty)-to-many(universities) relation "other"(
+	// (see addUniversitiesIdToFacultiesDuplicate) part of the many-to-many.)
+	addFacultiesDuplicateIdToUniversities(facultiesName,collectionName,state,ModifyDropdowns,uniName,facultiesId){
+		
+		//1.e.3.5.3 Get the facultiesIds that are already in the UNIVERSITY
+		var facultiesIds = ManyToManyDbAddFaculty.getIdsCollAofCollB("faculties","universities",uniName,state)
+		
+		//1.e.3.5.4 Check whether it is in there.
+		var isNewCombo = (!facultiesIds.includes(facultiesId))
+		if (isNewCombo){
+			
+			//1.e.3.5.4.b if no: don't add a new entry to the faculty, but just add the universityId to the faculty.
+			var newParentIds = ManyToManyDbAddFaculty.addNewUniversityIdToOldArr(facultiesIds,facultiesId);
+			var body = {
+				universitiesName: uniName,
+				facultiesIds: newParentIds
+			  }
+			axios.post('http://localhost:3001/api/putFacultyIdToUniversity', body);
+			alert("New combo posted")
+		} else {
+			//1.e.3.5.4.a if yes: terminate addition procedure and tell user it is already in.
+			alert("Combo already exists please select the university and then the faculty.")
+		}
+	
 	},
 
 	// gets the parent collection(s) to check if it is a new entry combination

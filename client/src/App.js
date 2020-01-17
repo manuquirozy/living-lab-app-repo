@@ -55,36 +55,36 @@ class App extends Component {
 		
 		// check whether there are any new additions in the db
 		this.throwAlert(this.facultiesEntries,this.state);
-            let interval = setInterval(() => this.throwAlert(), 6000);
+            let interval = setInterval(() => this.throwAlert(), 3000);
             
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getUniversities, 10000);
+            let interval = setInterval(this.getUniversities, 2000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getFaculties();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 10000);
+            let interval = setInterval(this.getFaculties, 2000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getBachelors();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getBachelors, 10000);
+            let interval = setInterval(this.getBachelors, 2000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getMasters();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getMasters, 10000);
+            let interval = setInterval(this.getMasters, 2000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getCourses();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getCourses, 10000);
+            let interval = setInterval(this.getCourses, 2000);
             this.setState({ intervalIsSet: interval });
         }
     }

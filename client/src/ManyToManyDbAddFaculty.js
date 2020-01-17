@@ -7,8 +7,8 @@ var facultyNames; // arr of faculty names
 var facultyId;
 var facultyIds; // arr of faculty ids 
 var universityName;
-var universitiesIdsOfFaculties; // arr of arr of universities that have this faculty
-var facultiesIdsOfUniversities; // arr of arr of universities that have this faculty
+var universitiesIdsInFaculties; // arr of arr of universities that have this faculty
+var facultiesIdsInUniversities; // arr of arr of universities that have this faculty
 var universitiesId;
 var universitiesIds;
 /*
@@ -37,8 +37,9 @@ module.exports = {
 		this.facultyNames = this.pushNamesToArray(faculties);
 		this.universitiesNames = this.pushNamesToArray(universities);
 		
-		this.universitiesIdsOfFaculties = this.pushUniversitiesIdsOfFacultiesToArray(faculties);
-		this.facultiesIdsOfUniversities = this.pushUniversitiesIdsOfFacultiesToArray(universities);
+		this.universitiesIdsInFaculties = this.pushuniversitiesIdsInFacultiesToArray(faculties);
+		//this.universitiesIdsInFaculties = this.pushuniversitiesIdsInFacultiesToArray(faculties,"universities");
+		this.facultiesIdsInUniversities = this.pushCollAIdsOfCollBToArray(universities,"faculties");
 		this.facultyName = input;
 		this.facultyId = this.lookUpFacultyId(input,entryIndex,faculties);
 		this.universityName = this.lookUpMatchingingUniversity()
@@ -51,13 +52,13 @@ module.exports = {
 	getIdsCollAofCollB(collectionAName,collectionBName,documentBName,incomingState){
 		var collAContent = this.getCollection(collectionAName,incomingState);
 		var collBContent = this.getCollection(collectionBName,incomingState);
-		this.universitiesIdsOfFaculties = this.pushCollAIdsOfCollBToArray(collBContent,collectionAName);
+		this.universitiesIdsInFaculties = this.pushCollAIdsOfCollBToArray(collBContent,collectionAName);
 		
 		// 0. get index of documentBName from collectionBContent
 		var collBIndex=this.getIndexDocument(collBContent,documentBName)
 		
 		// filter from all universityIds to only the one from the given documentBName
-		return this.universitiesIdsOfFaculties[collBIndex];
+		return this.universitiesIdsInFaculties[collBIndex];
 	},
 	
 	// Assumes all entries are unique. Returns index, at which documentName is found
@@ -134,6 +135,13 @@ module.exports = {
 		return universityId
 	},
 	
+	lookUpAccompanyingFacultiesId: function (facultiesName,state) {
+		const { faculties } = state;
+		//alert(JSON.stringify(universities))
+		var facultiesId = this.findIdOfCollection(facultiesName,faculties);
+		return facultiesId
+	},
+	
 	// Assumes the Entry is in collection (can be anything universites, faculties etc), finds matching id
 	findIdOfCollection(name,collection){
 		var i;
@@ -155,15 +163,15 @@ module.exports = {
 		var facultyIndex = this.getFacultyIndex(facultyName);
 		
 		// 1. get the list of universityId's
-		var universitiesIdsInFaculty = this.universitiesIdsOfFaculties[facultyIndex]
+		var universitiesIdsInFaculty = this.universitiesIdsInFaculties[facultyIndex]
 		
 		// 2. Add the current universityId to the list if it isn't already in
-		this.universitiesIdsOfFaculties[facultyIndex] = this.addNewUniversityId(universitiesIdsInFaculty,universityId);
+		this.universitiesIdsInFaculties[facultyIndex] = this.addNewUniversityIdToOldArr(universitiesIdsInFaculty,universityId);
 		
 		// 3. create body of push message
 		var body = {
 					facultiesName: facultyName,
-					universitiesIds: universityId,
+					universitiesIds: this.universitiesIdsInFaculties[facultyIndex],
 				  }
 				  
 		// 4. push message into MongoDB (to update the faculties document with name facultyName
@@ -173,20 +181,22 @@ module.exports = {
 	
 	// adds the facultyId to the university document in the Db
 	addFacultyIdToUniversity: function(facultiesId,universitiesName) {
-		alert("INCOMING UNIVERSITYID="+facultiesId)
+		alert("Incoming facultiesId="+facultiesId+" it will be added to the university:"+universitiesName)
 		// 0. get the index at which the UNIVERSITYName is located in the collection "universities"
 		var universitiesIndex = this.getUniversitiesIndex(universitiesName);
 		
 		// 1. get the list of universitiesId's
-		var facultiesIdsInUniversities = this.facultiesIdsOfUniversities[universitiesIndex]
+		var facultiesIdsInUniversities = this.facultiesIdsInUniversities[universitiesIndex]
+		alert("The currentList of faculties in university:"+universitiesName+" is:"+facultiesIdsInUniversities)
 		
 		// 2. Add the current universityId to the list if it isn't already in
-		this.facultiesIdsOfUniversities[universitiesIndex] = this.addNewUniversityId(facultiesIdsInUniversities,facultiesId); // TODO: Check if general
+		this.facultiesIdsInUniversities[universitiesIndex] = this.addNewUniversityIdToOldArr(facultiesIdsInUniversities,facultiesId); // TODO: Check if general
+		alert("Hence the new list = "+this.facultiesIdsInUniversities[universitiesIndex])
 		
 		// 3. create body of push message
 		var body = {
 					universitiesName: universitiesName,
-					facultiesIds: facultiesId,
+					facultiesIds: this.facultiesIdsInUniversities[universitiesIndex],
 				  }
 				  
 		alert("Pushing:"+body)
@@ -215,7 +225,7 @@ module.exports = {
 	
 	// Adds the universityId to the list of UniversityIds if 
 	// it isnt already in. Creates new array if universitiesIds were empty
-	addNewUniversityId: function(oldUniversityIds,universityId) {
+	addNewUniversityIdToOldArr: function(oldUniversityIds,universityId) {
 		alert("oldUniversityIds="+oldUniversityIds+"new uni Id="+universityId)
 		if (oldUniversityIds == undefined){
 			var newUniversityIds = [];	
@@ -273,11 +283,12 @@ module.exports = {
 		
 	// Push university arrays of a faculty to an array
 	// TODO: determine what happends if they are null/void
-	pushUniversitiesIdsOfFacultiesToArray(faculties){
-		var universitiesIdsOfFaculties = faculties.map(function (temp_item) {
+	// TODO: Switch to generalised method pushCollAIdsOfCollBToArray
+	pushuniversitiesIdsInFacultiesToArray(faculties){
+		var universitiesIdsInFaculties = faculties.map(function (temp_item) {
 			return temp_item.universities
 		});
-		return universitiesIdsOfFaculties;
+		return universitiesIdsInFaculties;
 	},
 	
 	// return the ids of collectionA that are in ALL documents in collectionB.
@@ -285,7 +296,6 @@ module.exports = {
 		var collAIdsOfcollB = collectionBContent.map(function (tempItem) {
 			switch(collectionAName) {
 				case "universities":
-					alert("The universities are:"+tempItem.universities)
 					return tempItem.universities;
 					break;
 				case "faculties":
