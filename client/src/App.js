@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
@@ -368,6 +369,14 @@ class App extends Component {
 		<button onClick={() => ModifyDropdowns.getSelectedDropdownValues("universities")}>
             Show the current value of the Uni dropdown box
         </button>
+		
+		{/* Host excel file*/}
+		{/* https://www.offidocs.com/loleaflet/dist/loleaflet.html?service=owncloudservice01&file_path=file:///var/www/html/weboffice/mydata/jonhie/NewDocuments/test-example.xls&username=jonhie&ext=yes*/}
+		{/* http://10.8.1.28:8080/apps/files/?dir=/Documents&fileid=14*/}
+			{/* http://10.8.0.8:8080/s/ipDQaFkkadmKL2d */}
+		
+		<iframe width="600" height="400" frameborder="0" scrolling="yes" src="http://172.30.16.1:8080/s/dCgkJJQRcforKrq">
+		</iframe>
 		
       </div>
     );

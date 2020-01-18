@@ -13,6 +13,42 @@ That means you can show a specific entry of the datatable into the html/website.
 
 What I have learned from this, is that, instead of making separate queries to get a specific region/entry of the data table in MongoDB, it appearently is conventional to copy the entire datatable into the application, every `x` (mili)seconds. And you can get whatever you want from this table by transforming its columns into arrays in the `app.js` which has the body/render of the html/website.
 
+# How to install:
+```
+cd to ../client/
+npm install
+npm audit fix
+cd to ../backend/
+npm install
+npm audit fix
+```
+Download mongodb from: https://www.mongodb.com/download-center/community
+Select the complete install and just next everything.
+Change the `E:` of the `.bat` files to whatever drive you put this repository in.
+For mongodb create the folder for database storage, open cmd and:
+```cd c:
+mkdir data
+cd data
+mkdir db
+```
+That is it, now you can run the server by opening the 3 `.bat` files. 
+To run server at startup, type:
+```
+start>run>shell:startup
+```
+and copy paste shortcuts to the `.bat` files in that folder. (SHORTCUTS, not the `.bat` files themselves.)
+
+Try forwarding your port 80 to port 3000:
+Source:
+https://stackoverflow.com/questions/11525703/port-forwarding-in-windows
+```
+netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.1 connectport=3000 connectaddress=127.0.0.1
+netsh interface portproxy add v4tov4 listenport=80 connectport=3000
+
+netsh interface portproxy delete v4tov4 listenport=80 listenaddress=127.0.0.1
+```
+
+
 # How to use
 To get an element from the mongoDB you must run the backend, and after that, in a separate cmd, run the front ent (client):
  If you get an error with npm start just type npm install <keyword> of error message, untill it doesn't give an error anymore. (repeat if the npm install gives an error as well).
