@@ -39,15 +39,12 @@ start>run>shell:startup
 and copy paste shortcuts to the `.bat` files in that folder. (SHORTCUTS, not the `.bat` files themselves.)
 
 Try forwarding your port 80 to port 3000:
-Source:
-https://stackoverflow.com/questions/11525703/port-forwarding-in-windows
-```
-netsh interface portproxy add v4tov4 listenport=80 listenaddress=127.0.0.1 connectport=3000 connectaddress=127.0.0.1
-netsh interface portproxy add v4tov4 listenport=80 connectport=3000
-
-netsh interface portproxy delete v4tov4 listenport=80 listenaddress=127.0.0.1
-```
-
+Source; https://tecadmin.net/set-up-reverse-proxy-using-iis/
+Install:
+https://www.iis.net/downloads/microsoft/url-rewrite
+https://www.iis.net/downloads/microsoft/application-request-routing
+start>run>inetmgr
+Works for the outside world. Note, the front-end should not refer to localhost:3000 but to hiveminds.eu:3000
 
 # How to use
 To get an element from the mongoDB you must run the backend, and after that, in a separate cmd, run the front ent (client):

@@ -56,36 +56,36 @@ class App extends Component {
 		
 		// check whether there are any new additions in the db
 		this.throwAlert(this.facultiesEntries,this.state);
-            let interval = setInterval(() => this.throwAlert(), 3000);
+            let interval = setInterval(() => this.throwAlert(), 6000);
             
         // read the mongodb collection universities in database "education"
 		this.getUniversities();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getUniversities, 2000);
+            let interval = setInterval(this.getUniversities, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getFaculties();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getFaculties, 2000);
+            let interval = setInterval(this.getFaculties, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getBachelors();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getBachelors, 2000);
+            let interval = setInterval(this.getBachelors, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getMasters();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getMasters, 2000);
+            let interval = setInterval(this.getMasters, 10000);
             this.setState({ intervalIsSet: interval });
         }
 		
 		this.getCourses();
         if (!this.state.intervalIsSet) {
-            let interval = setInterval(this.getCourses, 2000);
+            let interval = setInterval(this.getCourses, 10000);
             this.setState({ intervalIsSet: interval });
         }
     }
@@ -94,12 +94,10 @@ class App extends Component {
 	// pass the state with the entry to ManyToManyDbMain to 
 	// get the id of the new entry to create the ManyToMany relations
 	throwAlert(array,state){
-		//alert("facultiesEntries.length="+facultiesEntries.length)
 		if (facultiesEntries.length > 0){
-				//alert("engage Adding manyToMany")
-				if (ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)){
-					facultiesEntries.pop()
-				}
+			//alert("Content="+facultiesEntries)
+			ManyToManyDbMain.Main(facultiesEntries[0],"faculties",this.state)
+			//alert("periodic state stringify="+JSON.stringify(this.state))
 		}
 	}
 	
@@ -121,13 +119,13 @@ class App extends Component {
 		if(FormatChecks.correctInputFomat(message,collectionName,this.state,ModifyDropdowns)){		
 			switch(collectionName) {
 				case "universities":
-					axios.post('http://localhost:3001/api/putUniversity', {name: message});
+					axios.post('http://hiveminds.eu:3001/api/putUniversity', {name: message});
 					break;
 				case "faculties":
 					this.forceUpdate(); // try to update state to get id after post
 					this.getFaculties() // try to update state to get id after post
 					this.setState(this.state); // try to update state to get id after post
-					axios.post('http://localhost:3001/api/putFaculty', {name: message})
+					axios.post('http://hiveminds.eu:3001/api/putFaculty', {name: message})
 						  .then(response => {
 							const {faculties} = this.state;
 							//alert("response.data="+response.data)
@@ -136,13 +134,13 @@ class App extends Component {
 						  }) 
 					break;
 				case "bachelors":
-					axios.post('http://localhost:3001/api/putBachelor', {name: message});
+					axios.post('http://hiveminds.eu:3001/api/putBachelor', {name: message});
 					break;
 				case "masters":
-					axios.post('http://localhost:3001/api/putMaster', {name: message});
+					axios.post('http://hiveminds.eu:3001/api/putMaster', {name: message});
 					break;
 				case "courses":
-					axios.post('http://localhost:3001/api/putCourse', {name: message});
+					axios.post('http://hiveminds.eu:3001/api/putCourse', {name: message});
 					break;
 			}
 			this.forceUpdate(); // try to update state to get id after post
@@ -157,35 +155,35 @@ class App extends Component {
 	//***********************************************************Get data from db*******************
 	// read the mongodb collection universities in database "education"
 	getUniversities = () => {
-        fetch('http://localhost:3001/api/getUniversities')
+        fetch('http://hiveminds.eu:3001/api/getUniversities')
                 .then((data) => data.json())
                 .then((res) => this.setState({ universities: res.data }));
     };
 	
 	// read the mongodb collection faculties in database "education"
  	getFaculties= () => {
-        fetch('http://localhost:3001/api/getFaculties')
+        fetch('http://hiveminds.eu:3001/api/getFaculties')
                 .then((data) => data.json())
 				//set property "faculties" within the state" (won't throw error if you haven't defined property "faculties" within state".
                 .then((res) => this.setState({ faculties: res.data })); 
     };
 	// read the mongodb collection bachelors in database "education"
 	getBachelors = () => {
-        fetch('http://localhost:3001/api/getBachelors')
+        fetch('http://hiveminds.eu:3001/api/getBachelors')
                 .then((data) => data.json())
                 .then((res) => this.setState({ bachelors: res.data })); 
     };
 	
 	// read the mongodb collection masters in database "education"
 	getMasters= () => {
-        fetch('http://localhost:3001/api/getMasters')
+        fetch('http://hiveminds.eu:3001/api/getMasters')
                 .then((data) => data.json())
                 .then((res) => this.setState({ masters: res.data })); 
     };
 	
 	// read the mongodb collection courses in database "education"
 	getCourses= () => {
-        fetch('http://localhost:3001/api/getCourses')
+        fetch('http://hiveminds.eu:3001/api/getCourses')
                 .then((data) => data.json())
                 .then((res) => this.setState({ courses: res.data })); 		
     };
@@ -266,7 +264,7 @@ class App extends Component {
                 
 		{/*This calls a function that gets a single element of a document in the collection datas)*/}
 		{/*singleelement = {ModifyDropdowns.getSingleEntry(universities)}*/}
-		 
+		
 		<br></br> 
 		{/*Dropdownbox*/}
 		{/*Source: https://memorynotfound.com/dynamically-add-remove-options-select-javascript<br></br>*/}
@@ -321,7 +319,7 @@ class App extends Component {
             placeholder="add something in the database"
             style={{ width: '200px' }}
           />
-          <button onClick={() => this.putDataToDB(this.state.message,"faculties")}>
+          <button onClick={() => {this.putDataToDB(this.state.message,"faculties"),this.state}}>
             Add your faculty
           </button>
         </div>
