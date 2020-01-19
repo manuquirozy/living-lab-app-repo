@@ -1,7 +1,8 @@
 timeout /t 40 /nobreak
-E:
+C:
 SET mypath=%~dp0
+%mypath:~0,2%
 cd %mypath:~0,-1%
 cd client/src
-npm start
+call npm start
 timeout /t 5 /nobreak
