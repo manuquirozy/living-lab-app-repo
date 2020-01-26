@@ -111,15 +111,17 @@ class App extends Component {
 	
 	//***********************************************************Put data in db*******************
 	putDataToDB = (message,collectionName) => {
+		
 		const { faculties } = this.state;
 		var ModifyDropdowns = require('./ModifyDropdownsV0');
 		//var FormatChecks = new FormatChecks();
 		
 		// check input format against requirements
-		if(FormatChecks.correctInputFomat(message,collectionName,this.state,ModifyDropdowns)){		
+		if(FormatChecks.correctInputFomat(message,collectionName,this.state,ModifyDropdowns)){
 			switch(collectionName) {
 				case "universities":
 					axios.post('http://hiveminds.eu:3001/api/putUniversity', {name: message});
+					alert("Posted that stuff")
 					break;
 				case "faculties":
 					this.forceUpdate(); // try to update state to get id after post
@@ -292,6 +294,7 @@ class App extends Component {
 		<br></br> 
 		{/* Set fill the dropdownbox with array from MongoDB query*/}
 		{/*<button onClick={() => ModifyDropdowns.fillDropdownWithArr('James')}>Greet</button>*/}
+		<button onClick={() => alert(JSON.stringify(this.state))}>CLICK ME</button>
 		<button onClick={() => ModifyDropdowns.fillDropdownWithArr(faculties.map((dat) => dat.name))}>Fill dropdownbox with faculties</button>
 			
 		<br></br>
@@ -365,7 +368,7 @@ class App extends Component {
 			
 		<br></br>
 		<button onClick={() => ModifyDropdowns.getSelectedDropdownValues("universities")}>
-            Show the current value of the Uni dropdown box
+            Show the current value of the Uni dropdown box now
         </button>
 		
 		{/* Host excel file*/}
@@ -373,8 +376,8 @@ class App extends Component {
 		{/* http://10.8.1.28:8080/apps/files/?dir=/Documents&fileid=14*/}
 			{/* http://10.8.0.8:8080/s/ipDQaFkkadmKL2d */}
 		
-		<iframe width="600" height="400" frameborder="0" scrolling="yes" src="http://172.30.16.1:8080/s/dCgkJJQRcforKrq">
-		</iframe>
+		{/*<iframe width="600" height="400" frameborder="0" scrolling="yes" src="http://172.30.16.1:8080/s/dCgkJJQRcforKrq">*/}
+		{/*</iframe>*/}
 		
       </div>
     );
